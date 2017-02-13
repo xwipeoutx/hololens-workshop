@@ -1,8 +1,8 @@
 # Summary
 
 * [Introduction](README.md)
-* [Hello, World!](chapter1.md)
-* [Spatial Mapping](spatial-mapping.md)
-* [User Input](user-input.md)
-* [Networking](networking.md)
+* [Hello, World!](hello-world/index.md)
+* [Spatial Mapping](spatial-mapping/index.md)
+* [User Input](user-input/index.md)
+* [Networking](networking/index.md)
 
