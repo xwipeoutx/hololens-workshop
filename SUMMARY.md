@@ -2,7 +2,7 @@
 
 * [Introduction](README.md)
 * [Hello, World!](chapter1.md)
-* Spatial Mapping
+* [Spatial Mapping](spatial-mapping.md)
 * User Input
 * Networking
 
