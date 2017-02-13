@@ -25,11 +25,13 @@ Open your git client of choice and clone [https://github.com/Microsoft/HoloToolk
 1. Open Unity
 2. Click "Open Project"
 3. Choose the HoloToolkit folder 
-4. Select the root "Assets" folder of the solution
-5. Select `Assets -> Export Package`
-6. Ensure everything is selected and press `Export`
+4. In the menu, select `Assets -> Export Package`
+5. Ensure everything is selected and press `Export All..`
+6. Choose a folder and give it a good name (may I suggest `HoloToolkit`?)
 
-This will create a package that can be imported into a Unity project.  You can now close the HoloToolkit project.
+This will create a package file `HoloToolkit.unitypackage` that can be imported into a Unity project.  
+
+You can now close the HoloToolkit project.
 
 ### 3. Initial Unity project
 
@@ -52,15 +54,3 @@ TODO: Layout
 Your Assets window will now have 2 new folders - `HoloToolkit` and `HoloToolkit-Examples`.  Additionally, a new menu will appear
 at the top - `HoloToolkit`. This is a cool feature of Unity - packages can change the editing experience.  In this case, HoloToolkit
 includes a bunch of tools to assist in setting up the scene and visual studio projects.
-
-### 5. Apply HoloToolkit settings to project.
-
-In order to work with Holographic devices, some project settings need to be set up - mainly around setting up the device capabilities and targets.
-
-The Windows Holographic Academy tutorials go through this in detail, but HoloToolkit can do it for us:
-
-1. Click the `HoloTookit` menu
-2. Click `Configure`
-3. Choose `Apply HoloLens Scene Settings`
-
-Done!
