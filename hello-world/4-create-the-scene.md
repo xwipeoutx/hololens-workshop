@@ -1,85 +1,48 @@
 # Create the Scene
 
-It's now time to start our unity project, configure it for holograms and go crazy!
+## Goal
 
-## 1. Initial Unity project
+By the end of this section you will
+
+* Have a project suitable for holographic development
+* Configure the camera and input for speedy development
+* Add a hologram to the game world
+* See the results in the Unity editor
+
+## 1. Create the Unity project
+
+Note: If you did [Section 2](2-unity-overview.md) this section is not required.
 
 1. Open Unity
 2. Press the "New" button
-3. Enter the project details, we'll call it "**The Swarm**" for now.
+3. Enter the project details, we'll call it "**The Swarm**".
 4. Ensure the project is `3D` and, for simplicity, turn Unity Analytics `Off`
 5. Click create project.
 
-At this point you'll be greeted with the Unity main window.  We're going to fiddle with the Unity layout a little
-to make our lives easier
-
-1. From the menu, Select `Window` -> `Layouts` -> `Tall`
-
-Your window will look like this.
-
-![Main Unity window](img/window-unity-main.png)
-
-1. A preview of the unity scene.  Most of your layout and positioning will be done here.
-2. The currently loaded scene - a hierarchy of all the game objects in the scene.
-3. Your project assets.  Think icons, shaders, materials and meshes.
-4. The inspector. Shows the properties of the selected game object, and allows you to attach components to each.
-5. The play button. Starts your game within the unity editor - this is how you will do most of your previewing.
-
-## 2. Crash Course: Unity concepts in 5m or less.
-
-For those experienced in Unity, feel free to skip this section.  For the rest of us, let's take a quick peek at Unity.
-
-The Unity editor is an easy-to-use game development platform, which we will be using to develop our holographic apps on.
-
-A Unity project is comprised of Scenes, which act as a container for a set of Game Objects, and are generally the first thing you create in any project.
-
-A game object is a container for anything visual or behavioural in your game.  Each Game Object can hold other Game Objects too, and their
-position/rotation/scale transforms are hierarchical in nature.  This is very useful as a way of grouping and interacting with groups
-of related things.  For example, you may have a car game object, with 5 child game objects - one for each wheel, and one for the chassis.
-The wheels can rotate independently of the chassis, but you can move the parent and the whole thing will move.
-
-Don't be afraid to create many game objects - they're cheap and the structural benefits you get out of them will be worth it.
-
-Game Objects on their own do not do much besides transform themselves and children - they require Components to operate. A component
-does a single thing, and does it well. It may render a mesh, run a script, execute a particle engine, handle input, and anything you
-can think of.  When you write custom code, you write it as a Script Component that is attached to a Game Object.
-
-Components often have configurable properties (eg. the spawn rate for the bees in a beehive component) and this is shown in the Inspector 
-view.  Properties can be simple scalar variables, arrays or other game objects / components.  The UI supports all these with appropriate
-controls, or drag-drop mechanisms - it makes configuring these things quite simple.
-
-Scripts are compiled by the editor as they are saved, and the game can be run directly inside the editor.  This provides a very fast
-feedback loop for your game.
-
-With that block of text out of the way, let's start our first scene
-
-
-Game objects also act as a container for Components - indeed, without Components, nothing would happen at all, as a game object on its
-own does not do much.
-
-
-
-
-You will see a window like the following:
-TODO: Image
-
-I'm not a fan of the default layout, I recommend changing to the build-in vertical layout - that's what these screenshots will use.
-
-TODO: Layout
-
-Now we've got a Hologram-ready project, let's make our first scene.
-
 ## 1. Create a scene
 
-Unity projects have a top-level `Scene` under which everything sits.  In a traditional FF7-style RPG game for example, 
-you might have a Scene for the menus, a scene for the world map, a scene for the area map, and a scene for battle mode.
+**Note:** Even if you made a scene [Section 2](2-unity-overview.md), create a new scene now - we will do our holograms in this scene.
 
 For our project, we will have a single scene.
 
-1. In the Unity editor, click new scene
-2. Save it to `TODO: Folder` as `TODO: SceneName`
+1. Create a new Unity scene, call it `Swarm`
+2. Double click the scene to focus it to the hierarchy
+3. Click the Directional light and change the colour to white
 
-## 2. Apply HoloToolkit settings to scene
+## 2. Add HoloToolkit to the project
+
+We're now going to add `HoloToolkit` that we created in the [previous section](3-holotoolkit.md) to our project.
+
+1. Under `Assets`, choose `Import Package` then `Custom Package...`
+2. Select your newly built HoloTookit package and press `Open`
+3. Ensure everything is selected (`HoloTookit-examples` is optional, but useful. You can delete it later if you want)
+4. Press `Import`
+
+Your Assets window will now have 3 new folders - `HoloToolkit`, `HoloToolkit-Examples` and `HoloToolkit-UnitTests`.  Note that only `HoloToolkit` will be added to our scene - the others do not need to be imported, or can be deleted.
+
+A new menu will appear at the top - `HoloToolkit`. This is a cool feature of Unity - packages can change the editing experience.  In this case, HoloToolkit includes a bunch of tools to assist in setting up the scene and visual studio projects.
+
+## 3. Configure the Project
 
 In order to work with Holographic devices, some project settings need to be set up - mainly around setting up the device capabilities and targets.
 
@@ -87,31 +50,75 @@ The Windows Holographic Academy tutorials go through this in detail, but HoloToo
 
 1. Click the `HoloTookit` menu
 2. Click `Configure`
-3. Choose `Apply HoloLens Scene Settings`
+3. Choose `Apply HoloLens Project Settings`
+4. Ensure everything is selected and click `Apply`
+5. You will be prompted to save and restart - do it.
 
-Done!
+### Aside: What are these other options?
 
-## 3. Set up the camera, input and stuff
+Configuring the scene sets up the existing camera to be suitable for HoloLens development.  This does things like setting the camera background to "black" (HoloLens-speak for transparent apparently), setting the clipping planes to avoid eye fatigue and putting it at the origin.
+
+We'll be using the Camera supplied by `HoloToolkit`, so this is not required.
+
+We will apply the Capability settings as we need them - right now, we don't need to use any of it.
+
+## 3. Add the camera
 
 The default camera in the scene is not well suited for Holographic development, having unsuitable defaults for position and orientation, as well as having clipping planes that will give users headaches.  Fortunately, HoloToolkit has one for us!
 
-1. In the scene, find the Camera game object
-2. Delete it TODO: How
-3. In the asset window, search for `Camera` (or navigate to `HoloToolkit/Input/Prefabs`)
-4. Drag the camera into the scene
+1. In the scene, click `Main Camera` and press `Delete`
+2. In the `Project` window, search for `Camera` (or navigate to `HoloToolkit/Input/Prefabs`)
+3. Drag the `HoloLensCamera` prefab into the scene
+
+This camera is configured with all the good defaults, including:
+
+* Position of `(0,0,0)`
+* Near clip plane of 85cm - holograms will cut off at this point to avoid fatigue
+* Black background - this is the HoloLens transparent colour
+* Small Field of View - since the viewport of the HoloLens is tiny.
+
+It also has scripts for manual control in the unity editor - extremely useful for rapid development feedback cycle.
+
+## 4. Add the Cursor
 
 Most of the time the user will need to know what they're looking at - it isn't a natural thing to look with your head instead of
 your eyes, so let's put a cursor in. The one in HoloToolkit will orient itself to appear to stick on the surface, or appear as a dot
 when there is no surface found. 
 
 1. In the asset window, search for `Cursor` (or navigate to `HoloToolkit/Input/Prefabs/Cursors`)
-2. Drag the `DefaultCursor` prefab into the scene
+2. Drag the `Cursor` prefab into the scene
+
+## 5. Input and events
 
 At this point, while we have a camera and a cursor, we have no way of mapping head movements to camera movements - we need some input.
 
-There are some oddities here around how Unity (and HoloToolkit) manages input as scripts (custom code) can only be run when attached to game objects. The usual way to deal with this is to create a dummy game object, with no meshes or anything, and attach scripts to that.  We also
-put 
-
-1. TODO: Create a game object, call it `Managers` 
+1. Create an empty game object, call it `Managers` 
 2. In the asset window, search for `InputManager`
-3. Drag 
+3. Drag the `InputManager` prefab onto the `Managers` game object
+4. Select the `Managers` game object
+5. Right click it, and choose `UI -> Event System`
+
+This adds HoloToolkit's input system (with all its gaze support and stabilization), along with Unity's event system.
+
+## 6. Bring a hologram in
+
+1. Create a Cube game object
+2. Position it at `(0, 0, 3)`
+3. Rotate it to `(45, 45, 45)`
+4. Scale it to `(0.5, 0.5, 0.5)`
+5. Under `Mesh Renderer` set the Material to `HoloToolkit-Default`, and change the colour to a vibrant blue.  This is a nice base material, as it is pretty configurable and is fast for HoloLens rendering.
+
+**Note:** If you're feeling brave, bring in the car prefab from [Section 2](2-unity-overview.md). You may need to turn off gravity and/or remove the rigid from it for now.
+
+## 7. Have a look around
+
+Press play and have a look.  Controls are similar to the Unity scene view - WASD and right-click-drag.
+
+Some things to note.
+
+1. We made a 50cm cube 3 meters away and it takes up the whole viewport - the field of view of the HoloLens is pretty limited.    
+    * If you're used to playing first person shooters, this can be difficult to get used to - it feels like everything is bigger, but actually the FOV is just smaller.
+    * If you _really_ need to, you can adjust the FOV to a more sensible `90` in the camera settings. This only applied to the Unity editor. TODO: Confirm
+2. The default cursor reacts differently for holograms and not.  Note it sticking to the hologram and orienting the right direction.
+3. If you stand back too far, the collision no longer works - there is a maximum distance for the gaze collider, which is can configured in the `InputManager`.
+4. There is some simulation of finger taps here, we will cover this later.
