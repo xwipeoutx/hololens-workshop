@@ -100,3 +100,7 @@ Solution
 project.lock.json
 ```
 
+---
+Next: [Spatial Mapping](../spatial-mapping/index.md)
+
+Prev: [Creating the scene](1-create-the-scene.md)

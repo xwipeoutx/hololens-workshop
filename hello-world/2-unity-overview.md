@@ -178,3 +178,9 @@ Press Play!
 ### Final notes
 
 There is a _lot_ more to Unity that we didn't cover here - scripting, materials, shaders, etc.  You will come across these as you do more Unity development, but you should now have a good basis for working on Unity based projects.
+
+---
+Next: [HoloToolkit](3-holotoolkit.md)
+
+Prev: [Prerequisites](1-prerequisites.md)
+

@@ -14,3 +14,9 @@ This workshop requires a few resources before we get going:
 * Latest [Unity 5.5 or later](https://store.unity.com/download?ref=personal) - comes with Holographic support.
 
 This info and all the links can be found in the [Windows Holographic](https://developer.microsoft.com/en-us/windows/holographic/install_the_tools) section of the Dev Center.
+
+---
+Next: [Unity Overview](2-unity-overview.md)
+
+Prev: [Home](index.md)
+

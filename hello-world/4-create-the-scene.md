@@ -120,3 +120,8 @@ Some things to note.
 2. The default cursor reacts differently for holograms and not.  Note it sticking to the hologram and orienting the right direction.
 3. If you stand back too far, the collision no longer works - there is a maximum distance for the gaze collider, which is can configured in the `InputManager`.
 4. There is some simulation of finger taps here, we will cover this later.
+
+---
+Next: [Deploying ot the device](5-deployment.md)
+
+Prev: [HoloToolkit](3-holotoolkit.md)

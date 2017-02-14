@@ -35,10 +35,18 @@ Open your git client of choice and clone [https://github.com/Microsoft/HoloToolk
 1. Open Unity
 2. Click "Open Project"
 3. Choose the HoloToolkit folder 
-4. In the menu, select `Assets -> Export Package`
-5. Ensure everything is selected and press `Export All..`
-6. Choose a folder and give it a good name (may I suggest `HoloToolkit`?)
+
+### 3. Package the project
+
+1. In the menu, select `Assets -> Export Package`
+2. Ensure everything is selected and press `Export All..`
+3. Choose a folder and give it a good name (may I suggest `HoloToolkit`?)
 
 This will create a package file `HoloToolkit.unitypackage` that can be imported into a Unity project.  
 
 You can now close the HoloToolkit project.
+
+---
+Next: [Creating the scene](1-create-the-scene.md)
+
+Prev: [Unity Overview](2-unity-overview.md)
