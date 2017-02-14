@@ -1,8 +1,6 @@
 # Create the Scene
 
-## Goal
-
-By the end of this section you will
+## Goals
 
 * Have a project suitable for holographic development
 * Configure the camera and input for speedy development

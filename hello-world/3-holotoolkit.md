@@ -1,8 +1,6 @@
 # HoloToolkit
 
-## Goal
-
-By the end of this part, you will
+## Goals
 
 * Build HoloToolkit, ready to import into your project
 

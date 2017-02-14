@@ -1,12 +1,11 @@
 # Deployment
 
-## Goal
-
-By the end of this section you will
+## Goals
 
 * Build a Visual Studio solution
 * Deploy the solution to the HoloLens Emulator
 * Realize that deployment is slow, and it's better to stay in Unity
+* Get it into source control (git) appropriately.
 
 ## Build the solution
 

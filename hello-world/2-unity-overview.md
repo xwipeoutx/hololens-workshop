@@ -1,8 +1,6 @@
 # Unity Configuration / Overview
 
-## Goal
-
-By the end of this section, you will
+## Goals
 
 * Launch Unity
 * Create a Unity project
