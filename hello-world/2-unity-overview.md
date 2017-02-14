@@ -132,7 +132,7 @@ You'll note there's no input or anything - we won't go in to that now, as HoloLe
 
 #### Components
 
-You may have noticed that as we were building our game objects, each one had a set of components representing meshes, materials colliders etc.  This is how you attach scripts and things to your game object, too.  As a quick example of adding components, let's add physics to our car by dropping it from the sky.
+You may have noticed that as we were building our game objects, each one had a set of components representing meshes, materials colliders etc.  This is how you attach scripts and things to your game object, too.  As a quick example of adding components, let's add physics to our car by having it accelerate.
 
 1. Select the `Car` game object
 2. For simplicity, set the rotation back to `(0,0,0)`
@@ -144,7 +144,7 @@ You may have noticed that as we were building our game objects, each one had a s
 
 #### Prefabs
 
-Now we have a fantastic car, let's make it reusable
+Now we have a fantastic car, let's make it reusable.  Which will be useful, because we're going to crash them into each other.
 
 1. Drag the `Car` game object down to the `Project`/`Assets` area
 
@@ -173,7 +173,7 @@ OOPS! the cars go tumbling away! The force we applied does _not_ take transforms
 2. Set `Car 2`'s force vector to `(-20000, 0, 0)`
 3. Let's move the camera back a bit, to `(0, 0, -12)`
 
-Press Play!
+Press Play! Michael bay is jealous.
 
 ### Final notes
 
