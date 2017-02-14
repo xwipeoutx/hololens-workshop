@@ -1,5 +1,13 @@
 # HoloToolkit
 
+## Goal
+
+By the end of this part, you will
+
+* Build HoloToolkit, ready to import into your project
+
+## Why HoloToolKit?
+
 The latest Unity releases have in-built support for Holographic development and UWP publishing, it doesn't hold your hands
 with working in a holographic world - there are a few concepts andn setup that are unique to mixed reality - for example, camera
 setup, device capabilities and depth buffers.
