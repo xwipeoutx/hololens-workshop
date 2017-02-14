@@ -2,3 +2,5 @@
 
 Guide for the workshop on developing HoloLens applications.  By the end of the workshop, we will have developed a shared
 mixed reality space thingy.
+
+Get started with the Holographic [Hello, World!](hello-world/index.md)
