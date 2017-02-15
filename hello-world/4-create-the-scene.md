@@ -73,7 +73,7 @@ This camera is configured with all the good defaults, including:
 * Position of `(0,0,0)`
 * Near clip plane of 85cm - holograms will cut off at this point to avoid fatigue
 * Black background - this is the HoloLens transparent colour
-* Small Field of View - since the viewport of the HoloLens is tiny.
+* Small Field of View (FOV) - since the viewport of the HoloLens is tiny.
 
 It also has scripts for manual control in the unity editor - extremely useful for rapid development feedback cycle.
 
@@ -106,7 +106,15 @@ This adds HoloToolkit's input system (with all its gaze support and stabilizatio
 4. Scale it to `(0.5, 0.5, 0.5)`
 5. Under `Mesh Renderer` set the Material to `HoloToolkit-Default`, and change the colour to a vibrant blue.  This is a nice base material, as it is pretty configurable and is fast for HoloLens rendering.
 
-**Note:** If you're feeling brave, bring in the car prefab from [Section 2](2-unity-overview.md). You may need to turn off gravity and/or remove the rigid from it for now.
+**Extra Credit:** If you're feeling brave, bring in the car prefab from [Section 2](2-unity-overview.md). You may need to turn off gravity and/or remove the rigid from it for now.
+
+### About transparency
+
+The HoloLens display is a reflection of a projection, so it behaves like a project - which means that "black" is simply the absence of any light.  Since this is projected onto a transparent surface, the effect is that anything _black_ is completely transparent.
+
+Looking at it another way, the _lightness_ of a material defines its _opacity_ - which is why Holograms tend to be bright, vibrant colours.  Anything less would make it look ghostly and transparent.
+
+You can see this in action by setting the material to completely black, and running it on the HoloLens - it will be invisible.
 
 ## 7. Have a look around
 
@@ -116,7 +124,8 @@ Some things to note.
 
 1. We made a 50cm cube 3 meters away and it takes up the whole viewport - the field of view of the HoloLens is pretty limited.    
     * If you're used to playing first person shooters, this can be difficult to get used to - it feels like everything is bigger, but actually the FOV is just smaller.
-    * If you _really_ need to, you can adjust the FOV to a more sensible `90` in the camera settings. This only applied to the Unity editor. TODO: Confirm
+    * I recommend adjusting the FOV to a more sensible `90` in the camera settings. This only applied to the Unity editor view - you just need to keep in mind the view in Unity is not going to be the same as the HoloLens.
+    * If you do change the FOV, one little trick would be to draw a static rectangle representing the HoloLens viewport, in Unity only.
 2. The default cursor reacts differently for holograms and not.  Note it sticking to the hologram and orienting the right direction.
 3. If you stand back too far, the collision no longer works - there is a maximum distance for the gaze collider, which is can configured in the `InputManager`.
 4. There is some simulation of finger taps here, we will cover this later.
