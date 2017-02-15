@@ -1,6 +1,10 @@
 # Using Spatial Mapper
 
-True to form, HoloToolkit put in the hard yards of spatial mapping and gives us a nice prefab that we can just drag/drop.
+## Goals
+
+* Add spatial mapping to our application
+* Configure mapping to render nicely for development
+* Learn some tricks for using the emulator
 
 ## Enable spatial mapping
 
@@ -99,6 +103,11 @@ The emulator can also load in room meshes, which gives a similar result to that 
 4. Select `First Person View` 
 5. Position your windows such that you can see the 3D View while using the emulator.
 
-As you move around in the emulator, the 3d view will update.  Since the 3D view has a wide FOV, you get a lot of context - the HoloLens renders what's inside the green rectangle.
+As you move around in the emulator, the 3D view will update.  Since the 3D view has a wide FOV, you get a lot of context - the HoloLens renders what's inside the green rectangle.
 
 ![Emulator and Web Portal](img/emulator-and-web-portal.png)
+
+---
+Next: [Using Spatial Mapper](2-using-spatial-mapper.md)
+
+Prev: [Spatial Mapping](1-create-the-scene.md)

@@ -1,7 +1,8 @@
 # Fake Room Data
 
-Before we do any actual spatial mapping, we're going to import some room meshes.  This allows the Unity editor to simulate
-interaction with a room, and speeds up our development cycle.
+#3 Goals
+
+* Add fake room data to our assets
 
 ## 1. Getting room data
 

@@ -124,7 +124,8 @@ Some things to note.
 
 1. We made a 50cm cube 3 meters away and it takes up the whole viewport - the field of view of the HoloLens is pretty limited.    
     * If you're used to playing first person shooters, this can be difficult to get used to - it feels like everything is bigger, but actually the FOV is just smaller.
-    * I recommend adjusting the FOV to a more sensible `90` in the camera settings. This only applied to the Unity editor view - you just need to keep in mind the view in Unity is not going to be the same as the HoloLens.
+    * You can adjust the FOV to a more sensible `90` in the camera settings - This only applied to the Unity editor view - you just need to keep in mind the view in Unity is not going to be the same as the HoloLens.
+    * With this lower FOV, the fake hand locations will be tiny and distant
     * If you do change the FOV, one little trick would be to draw a static rectangle representing the HoloLens viewport, in Unity only.
 2. The default cursor reacts differently for holograms and not.  Note it sticking to the hologram and orienting the right direction.
 3. If you stand back too far, the collision no longer works - there is a maximum distance for the gaze collider, which is can configured in the `InputManager`.
