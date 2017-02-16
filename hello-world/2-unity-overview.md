@@ -146,7 +146,9 @@ You may have noticed that as we were building our game objects, each one had a s
 
 Now we have a fantastic car, let's make it reusable.  Which will be useful, because we're going to crash them into each other.
 
-1. Drag the `Car` game object down to the `Project`/`Assets` area
+1. Right-click the assets section, and click `Create Folder`
+2. Call the folder `Prefabs`
+2. Drag the `Car` game object down to this `Prefabs` area
 
 This creates a `Prefab` - a "master copy" of the game object in its own file, which can be put into the scene and tweaked.
 
@@ -167,10 +169,14 @@ Note that changing all these settings applied to the instance, not the prefab.  
 
 1. Press play.
 
-OOPS! the cars go tumbling away! The force we applied does _not_ take transforms into account, so we'll have to rotate the force direction.
+OOPS! the cars go tumbling away! The force we applied are being applied _absolutely_ not _relatively_ - which means they are in world coordinates; the rotation transforms will not be applied here.
 
-1. Set `Car 1`'s force vector to `(20000, 0, 0)`
-2. Set `Car 2`'s force vector to `(-20000, 0, 0)`
+Luckily the Constant Force bit has a `Relative Force` property, let's use this instead
+
+1. Set `Car 1`'s force vector to `(0, 0, 0)`
+2. Set `Car 1`'s relative force vector to `(0, 0, 20000)`
+1. Set `Car 2`'s force vector to `(0, 0, 0)`
+2. Set `Car 2`'s relative force vector to `(0, 0, 20000)`
 3. Let's move the camera back a bit, to `(0, 0, -12)`
 
 Press Play! Michael bay is jealous.
