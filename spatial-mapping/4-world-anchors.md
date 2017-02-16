@@ -229,4 +229,4 @@ You may have noticed this error:
 
 You can inspect this file and see that the `WorldAnchorStore` is never created in the Unity Player.  Basically, that functionality doesn't exist within Unity - only in the emulator and the HoloLens.  So while everything still behaves properly, there is no effect _within Unity_ to using the anchors.
 
-You should still use them though! They're very important for the real device.
+You still need to use them though!

@@ -110,4 +110,19 @@ public void OnInputClicked(InputEventData eventData)
 
 Play and run - now our beehive faces the right way every time. Perfect!
 
-Except we only want to attach our hologram to walls, not the behives.
+## 4. Ensuring our hives can only be attached to the mesh, not other holograms.
+
+If you tap at the beehive right now, the raycast will hit the beehive - we need to ensure that it only hits surfaces.
+
+Fortunately, this is easy to fix.  The Spatial Mapper puts the mesh in layer 31 by default - and this is exposed in the `SpatialMappingManager` singleton.  We can adjust our raycast code to only look at this layer.  
+
+1. Open the `MoveToTapPosition` script.
+2. Change the raycast code to:
+
+```cs
+var rayCastSuccessful = Physics.Raycast(origin, direction, out hit, 20, 1 << SpatialMappingManager.Instance.PhysicsLayer);
+```
+
+This method signature also requires a max ray length distance, I chose 20 metres.
+
+Now when you run, it will only raycast against the mesh, not the hologram.
