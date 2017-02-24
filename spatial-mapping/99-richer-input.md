@@ -74,8 +74,3 @@ public class MoveToTapPosition : MonoBehaviour, IInputClickHandler
     }
 }
 ```
-
-## 2. Only allow beehive to be placed on walls.
-
-It's currently possible to throw this beehive anywhere - we can attach it to a monitor if we want.  For sanity, we only want it on walls.
-
