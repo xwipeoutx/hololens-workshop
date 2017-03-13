@@ -308,4 +308,5 @@ public class SetBuzzinessMessage : BusMessage
 }
 ```
 
-## 2. 
+## 4. Wire up in the Spawn script
+
