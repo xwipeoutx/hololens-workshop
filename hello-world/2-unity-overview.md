@@ -53,7 +53,7 @@ least 2 scenes - one for the world view, and one for the battle mode.  When a Po
 
 To create a scene:
 
-1. In the `Project` section, choose `Create`, then `Folder
+1. In the `Project` section, choose `Create`, then `Folder`
 2. Call the folder `Scenes`
 3. Right click the folder, choose `Create` then `Scene`
 4. Give the scene a name `My Scene`
@@ -132,7 +132,7 @@ You'll note there's no input or anything - we won't go in to that now, as HoloLe
 
 #### Components
 
-You may have noticed that as we were building our game objects, each one had a set of components representing meshes, materials colliders etc.  This is how you attach scripts and things to your game object, too.  As a quick example of adding components, let's add physics to our car by having it accelerate.
+You may have noticed that as we were building our game objects, each one had a set of components representing meshes, materials, colliders etc.  This is how you attach scripts and things to your game object, too.  As a quick example of adding components, let's add physics to our car by having it accelerate.
 
 1. Select the `Car` game object
 2. For simplicity, set the rotation back to `(0,0,0)`
@@ -179,7 +179,7 @@ Luckily the Constant Force bit has a `Relative Force` property, let's use this i
 2. Set `Car 2`'s relative force vector to `(0, 0, 20000)`
 3. Let's move the camera back a bit, to `(0, 0, -12)`
 
-Press Play! Michael bay is jealous.
+Press Play! Michael Bay is jealous.
 
 ### Final notes
 

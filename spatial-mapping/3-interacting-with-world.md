@@ -24,7 +24,7 @@ We will add a script so that whenever you use the `Tap` gesture, the cube will b
 2. Create a new script, call it `ThrowAtWall` (Important: Do not add the `.cs` file extension)
 3. Click the `Cube` game object
 4. Click `Add Component`
-5. Search for and ad `ThrowAtWall`
+5. Search for and add `ThrowAtWall`
 6. Right-click the script and choose `Edit Script`
 
 This will launch Visual Studio with the script projects - handy!
@@ -64,7 +64,14 @@ A quick rundown:
   2. Set the velocity of the rigid body to a multiple of the direction the throw source
   3. Put some angular velocity on so it tumbles through the air and looks rad
 
-## 3. Test it out
+## 3. Set up the throw source and rigid body
+
+With the cube selected in the editor, under the `ThrowAtWall` script component
+
+1. Drag the "camera" game object to the `Throw Source` parameter
+2. Select the `Rigid Body` component for the `Rigid Body` parameter
+
+## 4. Test it out
 
 Run!  With the default key bindings, here is how you tap.  You will likely be holding down the `Right Mouse Button` at the same time for mouselook.  It's a little awkward, I'll be honest.
 

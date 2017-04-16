@@ -19,7 +19,7 @@ Before we can spatially map things, we need enable the appropriate capabilities.
 1. Add the `HoloToolkit/SpatialMapping/Prefabs/SpatialMapping` prefab to the scene
 2. Select the `SpatialMapping` game object in the hierarchy
 3. Drag one of the room meshes to the Object Surface Observer's `Room Model` property - this is what will be loaded for the Unity editor
-  * If you use the `FakeSpatialMappingMesh` from HoloToolkit, you will need to set the scale factor of the mesh to `100`, is it is tiny by default.
+  * If you use the `FakeSpatialMappingMesh` from HoloToolkit, you will need to set the scale factor of the mesh to `100`, as it is tiny by default.
 4. Press Play.  Keep in mind the FOV of the camera - everything looks much bigger than it otherwise would.
 
 You should be able to move around and see a wireframe of your mesh, and your cursor will stick to it, much like our holographic cube.
@@ -28,7 +28,7 @@ You should be able to move around and see a wireframe of your mesh, and your cur
 
 The `SpatialMapping` prefab wraps up the functionality of the Spatial Perception capability.  It sets up the appropriate calls to the `SurfaceObserver` to get surface information, and creates mesh objects with colliders and renderers.
 
-So the mapped surfaces of the world behave like any other hologram in our world - it's just a mesh.  Without and `RigidBody` behaviours, it will stay static, but it has colliders so other objects can interact with it.
+The mapped surfaces of the world behave like any other hologram in our world - it's just a mesh.  Without any `RigidBody` behaviours, it isi static, but it has colliders so other objects can interact with it.
 
 You can see this in action by inspecting the Hierarchy while the player is running - there will be meshes under the `SpatialMapping` Game Object.
 
@@ -95,7 +95,7 @@ The emulator can also load in room meshes, which gives a similar result to that 
   3. Click `Load Room`
   4. Choose the desired room (again, I like `Great Room`)
 
-**Pro tip:** Since the viewport is so small, I like to have the HoloLens web portal open to 3D View, to give me context.
+**Pro tip:** Since the viewport is so small, I find it useful to have the HoloLens web portal open to 3D View for context.  Once you're more familiar with the sample rooms, this becomes less necessary.
 
 1. On the emulator, click the web icon
 2. Select `3D view`
@@ -108,6 +108,6 @@ As you move around in the emulator, the 3D view will update.  Since the 3D view 
 ![Emulator and Web Portal](img/emulator-and-web-portal.png)
 
 ---
-Next: [Using Spatial Mapper](2-using-spatial-mapper.md)
+Next: [Interacting with the world](2-interacting-with-world.md)
 
-Prev: [Spatial Mapping](1-create-the-scene.md)
+Prev: [Fake Rooms](1-fake-room-data.md)

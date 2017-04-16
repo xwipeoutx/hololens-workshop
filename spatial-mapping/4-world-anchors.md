@@ -144,7 +144,7 @@ public class MoveToTapPosition : MonoBehaviour, IInputClickHandler
 }
 ```
 
-In this code we do a _Ray cast_ to look for an intersection with a surface - in this case, the room.
+In this code we do a _ray cast_ to look for an intersection with a surface - in this case, the room.
 
 A ray cast works by starting from an _origin_ and moving along a particular _direction_ until it intersects with something (yes, this is a simplified explanation).  When it intersects with something, some information about the `RaycastHit` is calculated - such as the position and the normal.
 
@@ -166,11 +166,11 @@ Now whenever you tap, the spawner will move around. Hurrah!
 
 While just setting the position directly is great and all, there are some issues with this approach when on a real device.
 
-As the HoloLens user moves about the room, the room mesh is updated and becomes more and more precise - this can result in the mesh being in a different spot to when it was initially placed.  When this happens, the walls may start _occluding_ the placed hologram - I have seen it become completely inaccessible because the wall has shifted by more than the thickness of the Hologram.
+As the HoloLens user moves about the room, the room mesh is updated and becomes more and more precise - this can result in the mesh being in a different spot to when it was initially placed.  When this happens, the walls may start _occluding_ the placed hologram - I have seen the hologram become completely inaccessible because the wall has shifted by more than the thickness of the Hologram.
 
 We get around this by using [Spatial Anchors](https://developer.microsoft.com/en-us/windows/holographic/Coordinate_systems.html#spatial_anchors)- which is described as an "important place in the world where the user has placed holograms".  
 
-Basically, it uses the geometry of the room as a basis for positioning, and can adjust over time. 
+Basically, it uses the geometry of the room as a basis for positioning, and may adjust as more information about the room's geometry is discovered.  This is all built-in to the hololens, and is the same as placing apps around the room in the main OS - so you don't have to worry about the reliability of it.
 
 ### Update the script
 
@@ -183,6 +183,8 @@ public string AnchorName = "GlobalMoveToPositionAnchor";
 ```
 
 Add the following line to the `Start` method:
+
+// TODO: Maybe ditch the manager? It's stupid
 
 ```cs
 WorldAnchorManager.Instance.AttachAnchor(gameObject, AnchorName);
@@ -209,7 +211,7 @@ public void OnInputClicked(InputEventData eventData)
 }
 ```
 
-Dealing with Anchors is relatively simple in HoloToolkit - it's simply a matter of attaching the anchor initially, and doing a remove/attach of the anchor when you move it.  Note you _should not_ move the game object while it's attached to an Anchor - remove it, move it, reattach it.
+Dealing with Anchors is relatively simple - it's simply a matter of attaching the anchor initially, and doing a remove/attach of the anchor when you move it.  Note you _should not_ move the game object while it's attached to an Anchor - remove it, move it, reattach it.  Indeed, any attempt to move the object will appear to do nothing, as the World Anchor will shunt it back to the anchor's position immediately.
 
 ### Add a WorldAnchorManager to the scene
 
