@@ -17,7 +17,7 @@ This info and all the links can be found in the [Windows Holographic](https://de
 
 ---
 
-Next: [Installing Prerequisites](/hello-world/1-prerequisites.md)
+Next: [Unity Overview](/hello-world/2-unity-overview.md)
 
 Prev: [Home](index.md)
 

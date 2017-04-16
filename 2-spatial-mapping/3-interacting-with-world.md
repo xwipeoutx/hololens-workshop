@@ -3,6 +3,7 @@
 ## Goals
 
 * Have our cube interact with the room
+* Learn how to use the `tap` gesture in the Unity editor 
 
 ## 1. Make the cube a physics object
 
@@ -73,7 +74,7 @@ With the cube selected in the editor, under the `ThrowAtWall` script component
 
 ## 4. Test it out
 
-Run!  With the default key bindings, here is how you tap.  You will likely be holding down the `Right Mouse Button` at the same time for mouselook.  It's a little awkward, I'll be honest.
+Run!  With the default key bindings, here is how you tap.  You will likely be holding down the `Right Mouse Button` at the same time for mouselook.  It's a little awkward, honestly.
 
 1. Hold `Space` to put your right hand into view
 2. Hold `Left Mouse Button` to lower your finger

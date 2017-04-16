@@ -9,9 +9,7 @@
 
 If you are already familiar with Unity, you can skip this section.
 
-## Unity configuration
-
-### 1. Initial Unity project
+## Create Unity Project
 
 1. Open Unity
 2. Press the "New" button
@@ -33,7 +31,7 @@ Your window will look like this.
 4. The inspector. Shows the properties of the selected game object, and allows you to attach components to each.
 5. The play button. Starts your game within the unity editor - this is how you will do most of your previewing.
 
-## 2. Crash Course: Unity concepts in 5m or less
+##  Crash Course: Unity concepts in 5m or less
 
 For those experienced in Unity, feel free to skip this section.  For the rest of us, let's learn the ropes in Unity.
 
@@ -72,7 +70,7 @@ of related things.
 
 Let's make a scene that is a car sitting on the ground now.
 
-#### Create the ground
+### Create the ground
 
 1. In the Hierarchy tab, click `Create` then `3D object` then `Plane`
 2. In the inspector, Rename the object to `Ground`
@@ -81,7 +79,7 @@ Let's make a scene that is a car sitting on the ground now.
 
 ![Ground](img/inspector-ground.png)
 
-#### Create the car
+### Create the car
 
 1. In the Hierarchy tab, click `Create` then `Create Empty`
 
@@ -110,7 +108,7 @@ We've created our first wheel!
 
 Repeat the above steps for wheels `3` and `4`, negating the `X` and `Z` positions in each case.
 
-#### Have a look around
+### Have a look around
 
 The simplest way to move around in the editor is to hold down the right mouse button, and use the WASD keys to fly around.  There are some useful shortcuts though
 
@@ -119,18 +117,18 @@ The simplest way to move around in the editor is to hold down the right mouse bu
 
 ![Axis Alignment](img/doodad-axis-alignment.png)
 
-#### Some tweaks
+### Some tweaks
 
 1. Our `Main Camera` is currently at ground level.  Set the position to `(0, 1.7, -6)` to bring it to eye level, and closer to the car
 2. Seeing the car front-on from our camera preview is a little lame, set the rotation of the `Car` to `(0, 30, 0)` to rotate it a little
 
-#### Play!
+### Play!
 
 Press Play and see your rendered scene in the Unity Player.
 
 You'll note there's no input or anything - we won't go in to that now, as HoloLens does it for us very simply.
 
-#### Components
+### Components
 
 You may have noticed that as we were building our game objects, each one had a set of components representing meshes, materials, colliders etc.  This is how you attach scripts and things to your game object, too.  As a quick example of adding components, let's add physics to our car by having it accelerate.
 
@@ -142,7 +140,7 @@ You may have noticed that as we were building our game objects, each one had a s
 6. Make it accelerate by setting `Force` to `(0, 0, 20000)`
 7. Hit play. Bye car!
 
-#### Prefabs
+### Prefabs
 
 Now we have a fantastic car, let's make it reusable.  Which will be useful, because we're going to crash them into each other.
 
@@ -165,7 +163,7 @@ Note the existing car object changes colour, it is now an _instance_ of the pref
 Note that changing all these settings applied to the instance, not the prefab.  At any time you can revert by using the buttons at the top  
 ![Prefab Options](img/prefab-options.png)
 
-### Go!
+## Go!
 
 1. Press play.
 
@@ -181,7 +179,7 @@ Luckily the Constant Force bit has a `Relative Force` property, let's use this i
 
 Press Play! Michael Bay is jealous.
 
-### Final notes
+## Final notes
 
 There is a _lot_ more to Unity that we didn't cover here - scripting, materials, shaders, etc.  You will come across these as you do more Unity development, but you should now have a good basis for working on Unity based projects.
 

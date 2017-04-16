@@ -1,3 +1,0 @@
-# User Input
-
-Gestures! Blooms!

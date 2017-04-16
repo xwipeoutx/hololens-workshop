@@ -4,10 +4,10 @@
 
 * Build HoloToolkit, ready to import into your project
 
-## Why HoloToolKit?
+## Why HoloToolkit?
 
-The latest Unity releases have in-built support for Holographic development and UWP publishing, it doesn't hold your hands
-with working in a holographic world - there are a few concepts andn setup that are unique to mixed reality - for example, camera
+The latest Unity releases have in-built support for Holographic development and UWP publishing. It doesn't hold your hands
+with working in a holographic world - there are a few concepts and setup that are unique to mixed reality - for example, camera
 setup, device capabilities and depth buffers.
 
 Fortunately, Microsoft have developed [HoloToolkit](https://github.com/Microsoft/HoloToolkit-Unity) - a Unity package that
@@ -15,12 +15,12 @@ contains a tonne of useful things to get going quickly:
 
 * Easy-to-apply project, camera and scene settings
 * Scripts to manage user input, spatial mapping, sound etc.
-* Prefabs common Holographic things - cursors
-* Helpers for things like finding planes, voice detection
+* Prefabs common Holographic things - like cursors and input
+* Helpers for things like finding planes and voice detection
 
 ## Downloading HoloToolkit
 
-Download the latest release (Built for Unity 5.5.0f3) from [their github repository](https://github.com/Microsoft/HoloToolkit-Unity/releases).
+Download the latest release (Built for Unity 5.5.2f1) from [their github repository](https://github.com/Microsoft/HoloToolkit-Unity/releases).
 
 ## Building HoloToolkit
 
