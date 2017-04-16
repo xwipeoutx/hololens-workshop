@@ -1,10 +1,10 @@
 # Prerequisites
 
-This workshop requires a few resources before we get going:
-
 ## Goal
 
 * Install all the tools needed for Holographic development
+
+This workshop requires a few resources before we get going:
 
 ## Tools
 
