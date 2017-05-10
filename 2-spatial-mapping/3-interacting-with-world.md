@@ -28,7 +28,7 @@ We will add a script so that whenever you use the `Tap` gesture, the cube will b
 5. Search for and add `ThrowAtWall`
 6. Right-click the script and choose `Edit Script`
 
-This will launch Visual Studio with the script projects - handy!
+This will launch Visual Studio with the script projects - handy!  You can open this in any code editor you like - in the end it will be compiled by Unity, not your IDE.
 
 Edit the file to look like this:
 
@@ -46,7 +46,7 @@ public class ThrowAtWall : MonoBehaviour, IInputClickHandler
         InputManager.Instance.AddGlobalListener(gameObject);
     }
 
-    public void OnInputClicked(InputEventData eventData)
+    public void OnInputClicked(InputClickedEventData eventData)
     {
         gameObject.transform.position = ThrowSource.transform.position;
         RigidBody.velocity = ThrowSource.transform.rotation * Vector3.forward * 10;
@@ -57,13 +57,13 @@ public class ThrowAtWall : MonoBehaviour, IInputClickHandler
 
 A quick rundown:
 
-1. Has an input for the throw source (ours will be the camera), and the rigid body.  These will be exposed in the UI
+1. Has an input for the throw source (ours will be the camera), and the rigid body.  These will be exposed in the Unity editor
 2. The `Start()` method (called when the object is started) registers this script with `HoloToolkit`'s `InputManager` singleton
 3. This is being registered as a global `Click` handler - which translates to tap in our gesture world
 4. When the event is clicked, we:
   1. Set the position of the cube to the throw source
-  2. Set the velocity of the rigid body to a multiple of the direction the throw source
-  3. Put some angular velocity on so it tumbles through the air and looks rad
+  2. Set the velocity of the rigid body to a multiple of the throw source's "look" vector (positive `z`).
+  3. Put some angular velocity on so it tumbles through the air and looks freakin' amazing
 
 ## 3. Set up the throw source and rigid body
 
@@ -71,6 +71,7 @@ With the cube selected in the editor, under the `ThrowAtWall` script component
 
 1. Drag the "camera" game object to the `Throw Source` parameter
 2. Select the `Rigid Body` component for the `Rigid Body` parameter
+3. Reduce the cube size to 20cm (set scale transform to `0.2, 0.2, 0.2`)
 
 ## 4. Test it out
 
@@ -79,6 +80,8 @@ Run!  With the default key bindings, here is how you tap.  You will likely be ho
 1. Hold `Space` to put your right hand into view
 2. Hold `Left Mouse Button` to lower your finger
 3. Release `Left Mouse Button` to raise again 
+
+You'll need to be careful you're not inside a wall at the time, as that tends to mess things up.
 
 ---
 Next: [Plane Detection](4-plane-detection.md)

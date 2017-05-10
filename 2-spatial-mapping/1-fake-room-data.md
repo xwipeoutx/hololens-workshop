@@ -18,8 +18,7 @@ C:\Program Files (x86)\Microsoft XDE\10.0.14393.0\Plugins\Rooms
 
 I like `Great Room` because it's wide open.
 
-Alternatively, I have put a mesh up of the Readify office at [/assets/rooms/ReadifyOffice.obj](/assets/rooms/ReadifyOffice.obj) - this is a little more
-real-world in that it is patchy, and has incomplete sections.  It's  bigger than the ones shipped in the SDK too, which is useful.
+Alternatively, I have put a mesh up of the Readify office at [/assets/rooms/ReadifyOffice.obj](/assets/rooms/ReadifyOffice.obj) - this is a little more real-world in that it is patchy, and has incompletely mapped sections.  It's  bigger than the ones shipped in the SDK too, which is useful - though the presence of things like chairs, umbilical cords and people can make it confusing.
 
 ![Readify Office Plan](img/readify-office-plan.png)
 
@@ -30,7 +29,7 @@ real-world in that it is patchy, and has incomplete sections.  It's  bigger than
   * This can take a little while, be patient, there are a lot of triangles.
 3. As a quick verify, drag the mesh onto a scene - you should see the room mesh display. If you do this, don't forget to delete it - we will be using it via the spatial mapper instead.
 
-Note at this point, it's just a mesh, like the cube we had on earlier.  In the next part we will use this mesh to simulate spatial mapping.
+Note at this point, it's just a static mesh, like the cube we had on earlier.  However, in the next part we will use this mesh to simulate spatial mapping while in the Unity editor.
 
 ---
 Next: [Using Spatial Mapper](2-using-spatial-mapper.md)

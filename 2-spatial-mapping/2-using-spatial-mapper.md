@@ -1,4 +1,4 @@
-# Using Spatial Mapper
+# Using HoloToolkit's Spatial Mapping
 
 ## Goals
 
@@ -26,23 +26,25 @@ You should be able to move around and see a wireframe of your mesh, and your cur
 
 ### So, what's going on here?
 
-The `SpatialMapping` prefab wraps up the functionality of the Spatial Perception capability.  It sets up the appropriate calls to the `SurfaceObserver` to get surface information, and creates mesh objects with colliders and renderers.
+The `SpatialMapping` prefab wraps up the functionality of the Spatial Perception capability.  It sets up the appropriate calls to the `SurfaceObserver` to get surface information, and creates mesh objects with colliders and renderers.  There is a lot going on behind the scenes here - point clouds, triangulation, iterative updates and refinements.  Luckily, that's all abstracted.
 
-The mapped surfaces of the world behave like any other hologram in our world - it's just a mesh.  Without any `RigidBody` behaviours, it isi static, but it has colliders so other objects can interact with it.
+The mapped surfaces of the world behave like any other hologram in our world - it's just a mesh.  Without any `RigidBody` behaviours, it is static, but it has colliders so other objects know to interact with it.
+
+At the end of the day, we interact with our mesh similarly to how you'd interact with a mesh of a Quake map - physics actions obey it, but don't affect it.
 
 You can see this in action by inspecting the Hierarchy while the player is running - there will be meshes under the `SpatialMapping` Game Object.
 
-Being in an imported Unity asset, this functionality can be viewed by editing the associated scripts - right-click the component and choose `Edit Script` to see more detail.
+**Extra:** Being in an imported Unity asset, this functionality can be viewed by editing the associated scripts - right-click the component and choose `Edit Script` to see how HoloToolkit interacts with the Spatial Perception libraries to achieve this.
 
 ## Configuring visibility of mesh
 
-While the wireframes are great for development and debugging, they're not very production-like.  There are two options here
+While the wireframes are great for development and debugging, they're not very production-like.  There are three options here
 
 ### 1. Show the wireframe (default)
 
 This default option renders wireframes of the mesh, which is exceptionally useful when developing/debugging without a real HoloLens - so most of the time.  When there is no real camera to show you the room, a wireframe will give a good representation of the room.
 
-With this configuration, the surfaces will also _occlude_ any holograms - that is, you won't be able to see them if there's a surface in the way.
+With this configuration, the surfaces will also _occlude_ any holograms - that is, you won't be able to see them if there's a wall (or any other surface) in the way.
 
 To configure the mesh to use a wireframe material:
 
@@ -56,7 +58,7 @@ To configure the mesh to use a wireframe material:
 
 While a wireframe is great for development, it's dodgy on a real device - you want to see the room, not a wireframe on top of the room.
 
-However, it's often desirable to make sure you can't see through the walls - this is meant to be mixed reality after all. If I have a car behind a garage door, I shouldn't see the car.
+However, it's often desirable to make sure you can't see through the walls - this is meant to be mixed reality after all.  If my holographic ball rolls into another room, and there's a wall in the way, I don't want to be able to see it.
 
 To configure the mesh to use a wireframe material:
 
@@ -77,15 +79,17 @@ To do this:
 1. Select the `SpatialMapping` game object in the hierarchy
 2. Ensure `Draw Visual Meshes` is deselected
 
+**Going Further:** To be really extreme with this pet example, you could expect that wireframes of hidden surfaces are rendered, but not of visible ones - so you can have context of which room a dog is in.  You can do this too, at the end of the day it's just a shader. You can do anything you want!
+
 ## Look around
 
-You may need to move your cube to a more reasonable location, depending on your room mesh, to fully experience the room rendering.  This will be simpler if you reset the `Rotation` transform of the cube to `(0, 0, 0)`
+You may need to move your cube to a more reasonable location, depending on your room mesh, to fully experience the room rendering.  This will be simpler if you reset the `Rotation` transform of the cube to `(0, 0, 0)`.
 
 Press **Play** in the Unity editor and move around the room, seeing the effect.
 
 ## On the emulator
 
-The emulator can also load in room meshes, which gives a similar result to that in Unity.  This part is optional, but included for completeness - it is occasionally useful.
+The emulator can also load in room meshes, which gives a similar result to that in Unity.  This part is optional, but included for completeness.
 
 1. Set the material to `Wireframe` if not already set
 2. Deploy to the emulator and run (see [Deployment](../hello-world/5-deployment.md))
@@ -95,7 +99,7 @@ The emulator can also load in room meshes, which gives a similar result to that 
   3. Click `Load Room`
   4. Choose the desired room (again, I like `Great Room`)
 
-**Pro tip:** Since the viewport is so small, I find it useful to have the HoloLens web portal open to 3D View for context.  Once you're more familiar with the sample rooms, this becomes less necessary.
+**Pro tip:** Since the viewport is so small, I find it useful to have the HoloLens web portal open to 3D View for context.  Once you're more familiar with the sample rooms, this becomes less useful (more useless?)
 
 1. On the emulator, click the web icon
 2. Select `3D view`

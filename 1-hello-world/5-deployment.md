@@ -47,6 +47,10 @@ Navigation in the emulator:
 * "Tap" gesture: Right-click
 * "Bloom" gesture: Windows key
 
+If you put your face close enough to the screen, it feels _just like_ wearing a HoloLens.
+
+It doesn't really, don't do that - you'll jusut look silly and get a bit of eye strain. Seriously.
+
 ## Should I use it?
 
 Short answer: No.
