@@ -17,8 +17,7 @@ If you are already familiar with Unity, you can skip this section.
 4. Ensure the project is `3D` and, for simplicity, turn Unity Analytics `Off`
 5. Click create project.
 
-At this point you'll be greeted with the Unity main window.  We're going to fiddle with the Unity layout a little  
-to make our lives easier  
+At this point you'll be greeted with the Unity main window.  We're going to fiddle with the Unity layout a little to make our lives easier  
 1. From the menu, Select `Window` -&gt; `Layouts` -&gt; `Tall`
 
 Your window will look like this.
@@ -39,15 +38,13 @@ We will not be using anything we create here, so don't go crazy with accurately 
 
 ### Assets
 
-Assets are displaying in the `Project` tab of Unity.  This view matches your file system, but displays previews and has  
-Unity specific icons for the different things.
+Assets are displaying in the `Project` tab of Unity.  This view matches your file system, but displays previews and has Unity-specific icons for the different assets.
 
 ![Project section](img/project-section.png)
 
 ### Scenes
 
-The top level concept in Unity is a Scene, which is describes an aspect of your game world.  For example, Pokemon would have at   
-least 2 scenes - one for the world view, and one for the battle mode.  When a Pokemon is encountered, the scene will change.
+The top level concept in Unity is a Scene, which is describes an aspect of your game world.  For example, Pokemon would have at least 2 scenes - one for the world view, and one for the battle mode.  When a Pokemon is encountered, the scene will change.
 
 To create a scene:
 
@@ -57,18 +54,17 @@ To create a scene:
 4. Give the scene a name `My Scene`
 5. Double click the scene
 
-The Scene will now be loaded in the `Hierarchy` section.  The first scene comes with a free `Directional Light` and `Main Camera`, and  
-we can see the Scene window has a preview.
+The Scene will now be loaded in the `Hierarchy` section.  The first scene comes with a free `Directional Light` and `Main Camera`, and we can see the Scene window has a preview.
 
 ![Hierarchy Section](img/hierarchy-section.png)
 
 ### Game Objects
 
-A Game Object is a _container_ for anything visual or behavioural in your game.  Each Game Object can hold other Game Objects too, and their  
-position/rotation/scale transforms are hierarchical in nature.  This is very useful as a way of grouping and interacting with groups  
-of related things.
+A Game Object is a _container_ for anything visual or behavioural in your game.  Each Game Object can hold other Game Objects too, and their position/rotation/scale transforms are hierarchical in nature - so if you move a parent game object, all child game objects will be moved as well.
 
-Let's make a scene that is a car sitting on the ground now.
+It is extremely common to have empty game object for the sole purpose of grouping like objects together, as you wlll see.
+
+Let's make our first scene - a car sitting on the ground.
 
 ### Create the ground
 
@@ -124,9 +120,15 @@ The simplest way to move around in the editor is to hold down the right mouse bu
 
 ### Play!
 
-Press Play and see your rendered scene in the Unity Player.
+Press `Play` and see your rendered scene in the Unity Player.
 
 You'll note there's no input or anything - we won't go in to that now, as HoloLens does it for us very simply.
+
+### Stop!
+
+This deserves a section on its own - don't forget to hit the `Play` button again when you're done looking.
+
+Any changes made to the scene while in `Play` mode is _not_ persisted when you exit playmode.  This can be a very painful lesson to learn!
 
 ### Components
 
@@ -134,7 +136,7 @@ You may have noticed that as we were building our game objects, each one had a s
 
 1. Select the `Car` game object
 2. For simplicity, set the rotation back to `(0,0,0)`
-3. Click `Add Component` and choose `Rigid Body`
+3. Click `Add Component` and choose `Rigidbody`
 4. Set the mass to 1 tonne: `1000`
 5. Click `Add Component` and choose `Constant Force`
 6. Make it accelerate by setting `Force` to `(0, 0, 20000)`
@@ -150,7 +152,7 @@ Now we have a fantastic car, let's make it reusable.  Which will be useful, beca
 
 This creates a `Prefab` - a "master copy" of the game object in its own file, which can be put into the scene and tweaked.
 
-Note the existing car object changes colour, it is now an _instance_ of the prefab, with all the settings coming from the prefab.
+Note the existing car object in your scene hierachy has changed colour, it is now an _instance_ of the prefab, with all the settings coming from the prefab.
 
 1. Rename the existing `Car` object in the scene to `Car 1`
 2. Set the car position to `(-10, 0, -0.5)`
@@ -169,15 +171,18 @@ Note that changing all these settings applied to the instance, not the prefab.  
 
 OOPS! the cars go tumbling away! The force we applied are being applied _absolutely_ not _relatively_ - which means they are in world coordinates; the rotation transforms will not be applied here.
 
-Luckily the Constant Force bit has a `Relative Force` property, let's use this instead
+You can see here the inherent chaos of physics engines - same force, same mass, same geometry, different bounce profiles. Interesting, no?
 
-1. Set `Car 1`'s force vector to `(0, 0, 0)`
-2. Set `Car 1`'s relative force vector to `(0, 0, 20000)`
-3. Set `Car 2`'s force vector to `(0, 0, 0)`
-4. Set `Car 2`'s relative force vector to `(0, 0, 20000)`
-5. Let's move the camera back a bit, to `(0, 0, -12)`
+Luckily the Constant Force component has a `Relative Force` property, let's use this instead
+
+1. In the project section, select the `Car` prefab
+2. Set the force vector to `(0, 0, 0)`
+2. Set the relative force vector to `(0, 0, 20000)`
+5. Let's move the camera back a bit, to `(0, 0, -12)`.  Constant tweaking, that's graphics development in a nutshell.
 
 Press Play! Michael Bay is jealous.
+
+Notice that just be changing the prefabs, we've fixed both the cars! Prefabs.  Use them. Tell your friends.
 
 ## Final notes
 
