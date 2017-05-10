@@ -22,6 +22,8 @@ contains a tonne of useful things to get going quickly:
 
 Download the latest release (Built for Unity 5.5.2f1) from [their github repository](https://github.com/Microsoft/HoloToolkit-Unity/releases).
 
+At the time of writing this was `HoloToolkit-Unity for Unity 5.5.2f1+`, `v1.5.6` at commit `54d55bd`.
+
 ## Building HoloToolkit
 
 If you want to be bleeding edge, you can build it yourself like so.  Use at your own risk.

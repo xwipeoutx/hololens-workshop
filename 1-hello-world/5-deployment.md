@@ -18,7 +18,7 @@
 4. Wait
 5. Click `Open SLN`
 
-This builds all the solutiony stuff you need to deploy the device. I use the folder name `Solution` to make it clear that's the Visual Studio solution.
+This builds all the solutiony stuff you need to deploy to the device. I use the folder name `Solution` to make it clear that's the Visual Studio solution.  Handily, that's the default - how clever!
 
 ## Deploy the solution
 
@@ -28,11 +28,11 @@ In Visual Studio, set your build configuration to:
 * x86
 * HoloLens Emulator
 
-Hit Ctrl+F5, wait a long time, and you're off to the races!
+Hit `Ctrl+F5` to run without debugging.  Wait a long time, and you're off to the races!
 
 ## Troubleshooting
 
-This part often has lots of issues.  The step-by-step hand curated guide below will solve every issue.
+This part often has lots of issues.  To save time, I've developed a self-learning artificial intelligence to troubleshoot these issues, and embedded it below.  This system  detects the problem you are having, reticulates the splines and adjusts its parameters to generate a specific solution to your problem.  Here it is:
 
 1. Close Visual Studio
 2. Delete the `Solution` folder
@@ -49,17 +49,21 @@ Navigation in the emulator:
 
 ## Should I use it?
 
-Short answer: No, not really.
+Short answer: No.
 
-You will 95% of your development time is in Unity or your script editor of choice (often visual studio) - deploying to the emulator or a Hololens is really the last thing you do to verify something works well with real input.
+You will spend over 95% of your development time is in Unity or your script editor of choice (often Visual Studio) - deploying to the emulator or a Hololens is just the last thing you do to verify something works well with real input.
 
-It is exciting at first to see your work as you go in the real world, but it's just too slow to be worth it.  Stay in Unity and you'll be happier for it.
+The one exception to this is dealing with Spatial Anchors, but we'll cover that later.
+
+It is exciting at first to see your work on an actual device, but it's just too slow to be worth it.  You'll get sick of waiting, trust me.
+
+Stay in Unity and you'll be happier for it.
 
 ## A note on source control
 
-The main takehome on `.gitignore` is to **ignore all Unity generated output** - this includes the Visual Studio solution.  Checking that in will lead to pain.
+The main take-home on `.gitignore` is to **ignore all Unity generated output** - this includes the Visual Studio solution.  Checking that in will lead to pain.
 
-Here is a `.gitignore` I've used with success:
+Here is a `.gitignore` I've used with success.  I have no idea where I got it from, or what changes I've made to it:
 
 ```sh
 /[S]olution/

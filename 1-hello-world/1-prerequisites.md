@@ -8,7 +8,7 @@ This workshop requires a few resources before we get going:
 
 ## Tools
 
-* [Visual Studio 2015 Update 3](https://developer.microsoft.com/en-us/windows/downloads)
+* [Visual Studio 2015 Update 3](https://developer.microsoft.com/en-us/windows/downloads) or later
   * Ensure Tools \(1.4\) and Windows 10 SDK are installed
 * [HoloLens Emulator](http://go.microsoft.com/fwlink/?LinkID=823018)
 * Latest [Unity 5.6.0f3 or later](https://store.unity.com/download?ref=personal) - comes with Holographic support.
