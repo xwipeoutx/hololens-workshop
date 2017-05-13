@@ -2,15 +2,13 @@
 
 ## Goals
 
-* Use a world anchor - more accuracy
-
-TODO: have a prefab package available for this part, up to `World Anchor`
+* Use a world anchor to make our positioning world-aware
 
 ## World Anchors
 
 While just setting the position directly is great and all, there are some issues with this approach when on a real device.
 
-As the HoloLens user moves about the room, the room mesh is updated and becomes more and more precise - this can result in the mesh being in a different spot to when it was initially placed.  When this happens, the walls may start _occluding_ the placed hologram - I have seen the hologram become completely inaccessible because the wall has shifted by more than the thickness of the Hologram.
+As the HoloLens user moves about the room, the room mesh is updated and becomes more and more precise - this can result in the mesh being in a different spot to when it was initially placed.  When this happens, the walls may start _occluding_ the placed hologram - I have seen the hologram become completely inaccessible and hidden because the wall has shifted by more than the thickness of the Hologram.
 
 We get around this by using [Spatial Anchors](https://developer.microsoft.com/en-us/windows/holographic/Coordinate_systems.html#spatial_anchors)- which is described as an "important place in the world where the user has placed holograms".  
 
@@ -27,8 +25,6 @@ public string AnchorName = "GlobalMoveToPositionAnchor";
 ```
 
 Add the following line to the `Start` method:
-
-// TODO: Maybe ditch the manager? It's stupid
 
 ```cs
 var anchor = gameObject.AddComponent<WorldAnchor>();
@@ -50,10 +46,10 @@ public void OnInputClicked(InputEventData eventData)
 
     var spawnPosition = hit.point + hit.normal * OffsetFromWall;
 
-// TODO: Test, consider #if !UNITY_EDITOR
     var existingAnchor = gameObject.GetComponent<WorldAnchor>();
-    if (existingAnchor != null) {
-        gameObject.RemoveAnchor(existingAnchor);
+    if (existingAnchor != null)
+    {
+        DestroyImmediate(existingAnchor);
     }
 
     gameObject.transform.position = spawnPosition;
@@ -65,11 +61,11 @@ public void OnInputClicked(InputEventData eventData)
 
 Dealing with anchors is relatively simple - it's simply a matter of attaching the supplied `WorldAnchor` component to the game object. Once attached, the `WorldAnchor` becomes responsible for managing the objects position and rotation.
 
-Note that any attempt to move the object will appear to do nothing - the `WorldAnchor` will shunt it back to the anchor's position immediately.
+Note that any attempt to move the object while it contains a `WorldAnchor` component will appear to do nothing - the `WorldAnchor` will shunt it back to the anchor's position immediately.
 
 ### But...errors?
 
-TODO: Update
+TODO: Talk about anchors within Unity... if I still need to *gasp*
 
 You may have noticed this error:
 

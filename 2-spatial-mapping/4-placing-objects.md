@@ -3,7 +3,7 @@
 ## Goals
 
 * Implement a cube spawner
-* Place the spawner with a tap
+* Place the spawner with the tap gesture
 
 ## 1. Add a spawner
 
@@ -14,7 +14,7 @@
 5. Add this script to your `Spawner` object
 6. Edit the script (via `Right click`-`edit script`)
 
-> Optional: It can be helpful to have a visible object here to ensure everything is working - just drag a cube or sphere under it.  Be sure to disable the physics material of the mesh, or it will interact weirdly with the cubes it is spawning.
+> **Optional**: It can be helpful to have a visible object here to ensure everything is working - just drag a cube or sphere under it.  Be sure to disable the physics material of the mesh, or it will interact weirdly with the cubes it is spawning.
 
 ## 2. Write the script
 
@@ -36,8 +36,7 @@ Add the following fields. Note we've put a list in to keep track of our spawned 
     private List<GameObject> _spawnedThings = new List<GameObject>();
 ```
 
-We're going to use a [Coroutine](https://docs.unity3d.com/Manual/Coroutines.html) - which is a clever hack by Unity to
-manage operations that need to be performed over multiple game loop cycles, by leveraging `yield`.  Let's write it now:
+We're going to use a [Coroutine](https://docs.unity3d.com/Manual/Coroutines.html) - which is a clever hack by Unity to manage operations that need to be performed over multiple game loop cycles, by leveraging `yield`.  Let's write it now:
 
 ```cs
 IEnumerator DoTheSpawns()
@@ -120,13 +119,12 @@ public class MoveToTapPosition : MonoBehaviour, IInputClickHandler
     public float OffsetFromWall = 0.5f;
     public float OffsetWhenNoWall = 5;
 
-    // Use this for initialization
     void Start()
     {
         InputManager.Instance.AddGlobalListener(gameObject);
     }
 
-    public void OnInputClicked(InputEventData eventData)
+    public void OnInputClicked(InputClickedEventData eventData)
     {
         var origin = Camera.transform.position;
         var direction = Camera.transform.rotation * Vector3.forward;
@@ -145,9 +143,9 @@ public class MoveToTapPosition : MonoBehaviour, IInputClickHandler
 
 In this code we do a _ray cast_ to look for an intersection with a surface - in this case, the room.
 
-A ray cast works by starting from an _origin_ and moving along a particular _direction_ until it intersects with something (yes, this is a simplified explanation).  When it intersects with something, some information about the `RaycastHit` is calculated - such as the position and the normal.
+A ray cast works by starting from an _origin_ and moving along a particular _direction_ until it intersects with something (yes, this is a simplified explanation).  When it intersects with something, some information about the `RaycastHit` is calculated - such as the _position_ and the _normal_.
 
-In this case, we start the ray at the camera position and face it in the direction the camera is looking. If a hit is found, the spawn position is offset from the wall a specified amount.  If not, it sets the position to a specific distance along the ray.
+In this case, we start the ray at the camera position and face it in the direction the camera is looking. If a hit is found, the spawn position is offset from the wall a specified amount (along the surface normal).  If not, it sets the position to a specific distance along the ray.
 
 ## 6. Test it out
 
