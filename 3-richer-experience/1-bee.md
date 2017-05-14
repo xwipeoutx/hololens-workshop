@@ -48,12 +48,12 @@ public class FlyAround : MonoBehaviour
 
     public void RandomlyFlySomewhere()
     {
-        FlyTowards = _worldPosition + Random.insideUnitSphere * MaxRadius;
+        FlyTowards = Random.insideUnitSphere * MaxRadius;
     }
 
     void Update()
     {
-        var isAtTarget = BuzzToTarget(FlyTowards);
+        var isAtTarget = BuzzToTarget(_worldPosition + FlyTowards);
         if (isAtTarget)
         {
             RandomlyFlySomewhere();

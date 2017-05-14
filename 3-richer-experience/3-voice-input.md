@@ -84,7 +84,6 @@ This section is just some polish on the bee behaviour - feel free to skip it, as
 1. Open `FlyAround.cs` and change to be the following:
 
 ```cs
-// TODO: Make match the other thingy
 public class FlyAround : MonoBehaviour
 {
     public float MinSpeed = 1;
@@ -92,18 +91,14 @@ public class FlyAround : MonoBehaviour
     public float MaxRadius = 0.5f;
     private float _speed;
 
-    public Vector3? FlyTowards = null;
+    private Vector3? FlyTowards = null;
+    private Vector3 _worldPosition;
     private bool _goingHome = true;
 
     void Start()
     {
+        _worldPosition = transform.position;
         _speed = Random.Range(MinSpeed, MaxSpeed);
-    }
-
-    public void FlyOut()
-    {
-        FlyTowards = Random.insideUnitSphere * MaxRadius;
-        _goingHome = false;
     }
 
     public void GoHome()
@@ -112,108 +107,91 @@ public class FlyAround : MonoBehaviour
         _goingHome = true;
     }
 
+    public void RandomlyFlyAround()
+    {
+        FlyTowards = Random.insideUnitSphere * MaxRadius;
+        _goingHome = false;
+    }
+
     void Update()
     {
         if (FlyTowards != null)
         {
-            var isAtTarget = BuzzToTarget(FlyTowards.Value);
+            var isAtTarget = BuzzToTarget(_worldPosition + FlyTowards.Value);
             if (isAtTarget)
             {
                 if (_goingHome)
+                {
                     FlyTowards = null;
+                }
                 else
-                    FlyOut();
+                {
+                    RandomlyFlyAround();
+                }
             }
         }
     }
 
-    private bool BuzzToTarget(Vector3 target)
-    {
-        var fromObjectToTarget = target - gameObject.transform.localPosition;
-
-        var isAlreadyAtTarget = fromObjectToTarget.sqrMagnitude < 0.0001f;
-        if (isAlreadyAtTarget)
-        {
-            gameObject.transform.localPosition = target;
-            return true;
-        }
-
-        var delta = Time.deltaTime * fromObjectToTarget.normalized * _speed;
-        gameObject.transform.localRotation = Quaternion.LookRotation(delta.normalized);
-
-        var willOvershootTarget = delta.sqrMagnitude > fromObjectToTarget.sqrMagnitude;
-        if (willOvershootTarget)
-        {
-            gameObject.transform.localPosition = target;
-            return true;
-        }
-
-        gameObject.transform.localPosition = gameObject.transform.localPosition + delta;
-        return false;
-    }
+    // ...
 }
 ```
 
-We've added some `public` methods here to inform the behaviour whether it's going to be going out or coming home.  Inside the script, we keep track of that and make it _bee_have appropriately.
+We've added some `public` methods here to inform the behaviour whether it's going to be going out or coming home.  Inside the script we keep track of that and make it _bee_have appropriately.
 
-2. Allow `Spawn` script to access other component
-
-Add the following method to `Spawn` script:
+2. Update `DoTheSpawns()` to ensure bees flyout instantly
 
 ```cs
-FlyAround GetFlyAround(GameObject thingToSpawn)
+private void DoTheSpawns()
 {
-    var flyAround = thingToSpawn.GetComponent<FlyAround>();
-    if (flyAround == null)
-    {
-        Debug.LogError("Expected ThingToSpawn to have FlyAround behaviour, but it did not.");
-    }
-    return flyAround;
-}
-````
-
-3. Update `SpawnAThing()` to ensure bees flyout instantly
-
-```cs
-private void SpawnAThing()
-{
-    if (!AreBeesBuzzing)
-        return;
-
-    var newThing = Instantiate(ThingToSpawn, transform.position, Quaternion.identity, gameObject.transform);
-    GetFlyAround(newThing).FlyOut();
+    // ...
+    var newThing = Instantiate(ThingToSpawn, transform.position, Quaternion.identity, transform);
     _spawnedThings.Add(newThing);
+
+    var flyAround = newThing.GetComponent<FlyAround>();
+    if (flyAround != null)
+    {
+        flyAround.RandomlyFlyAround();
+    }
+
+    // ...
 }
 ```
 
-4. Update `OnSpeechKeywordRecognized` to cause bees to go back to their home:
+3. Update `StopSpawning` to cause bees to go back to their home:
 
 ```cs
-public void OnSpeechKeywordRecognized(object sender, SpeechKeywordRecognizedEventArgs eventData)
+private void StopSpawning()
 {
-    var phrase = eventData.RecognizedText.ToLowerInvariant();
-    switch (phrase)
+    BuzzSound.mute = true;
+    StopAllCoroutines();
+    _spawnedThings.ForEach(obj =>
     {
-        case "buzz around":
-            AreBeesBuzzing = true;
-            break;
-        case "buzz off":
-            AreBeesBuzzing = false;
-            break;
-    }
-
-    BuzzSound.mute = !AreBeesBuzzing;
-
-    foreach (var flyAround in _spawnedThings.Select(GetFlyAround))
-    {
-        if (AreBeesBuzzing)
-        {
-            flyAround.FlyOut();
-        }
-        else
+        var flyAround = obj.GetComponent<FlyAround>();
+        if (flyAround != null)
         {
             flyAround.GoHome();
         }
-    }
+    });
+}
+```
+
+4. Update `StartSpawning` to cause bees that are at home to come back out:
+
+```cs
+private void StartSpawning()
+{
+    BuzzSound.mute = false;
+    StopAllCoroutines();
+
+    _spawnedThings.ForEach(obj =>
+    {
+        var flyAround = obj.GetComponent<FlyAround>();
+        if (flyAround != null)
+        {
+            flyAround.RandomlyFlyAround();
+        }
+    });
+
+    StartCoroutine(DoTheSpawns());
 }
 ```
