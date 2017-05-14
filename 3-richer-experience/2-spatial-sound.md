@@ -2,7 +2,7 @@
 
 ## Goals
 
-* Make the bees buzz
+* Make the bees buzz, according to relative position to user
 
 ## 5. Let's have some sound
 

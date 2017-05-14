@@ -7,79 +7,70 @@
 ## 1. Set up some voice commands
 
 1. Enable "Microphone" capability via `HoloToolKit`-`Configure`-`Apply HoloLens Capability Settings`
-2. Add the `Speech Input Source` component to the `Managers` object
+2. Add the `Speech Input Source` component to the `Bee Spawner` object
 3. Expand `Keywords` and add the following keywords:
   * `Buzz Around` (shortcut: `Comma`)
   * `Buzz Off` (shortcut: `Period`)
 
-## 2. Set up swarm script to accept those voice commands
+> **Shortcuts**: Why use shortcuts? Because Cortana isn't perfect, and you _WILL_ get annoyed when testing it out.  Shortcuts only work within the editor.
 
-1. Open up the `Swarm` script in Visual studio
+## 2. Set up spawn script to accept those voice commands
+
+1. Open up the `Spawn` script for editing
 2. Add the following fields:
 
 ```cs
 public AudioSource BuzzSound;
-public bool AreBeesBuzzing = false;
-public SpeechInputSource SpeechSource;
 ```
 
 3. In Unity, drag the audio source to the `Buzz Sound` placeholder
-4. Select the speech input source from the `Manager` object for the `Speech Source`
-5. Update `SpawnAThing()` to early return when bees aren't spawning
+4. Add methods to start / stop the spawnings.  These should also mute/play the sound, and destroy any bees that were around before
 
 ```cs
-private void SpawnAThing()
+public void StartSpawning()
 {
-    if (!AreBeesBuzzing)
-        return;
+    BuzzSound.mute = false;
+    StopAllCoroutines();
+    StartCoroutine(DoTheSpawns());
+}
 
-    // ...as before
+public void StopSpawning()
+{
+    BuzzSound.mute = true;
+    StopAllCoroutines();
+    _spawnedThings.ForEach(obj => Destroy(obj));
+    _spawnedThings.Clear();
 }
 ```
 
-6. Register this class with the `InputManager`
+5. Ensure the bees start spawning, update `Start` as follows
 
 ```cs
 void Start()
 {
-    // ... 
-    SpeechSource.SpeechKeywordRecognized += OnSpeechKeywordRecognized;
-}
+    if (ThingToSpawn == null)
+        Debug.LogError("Spawn: No things to spawn");
 
-void OnDestroy()
-{
-    SpeechSource.SpeechKeywordRecognized -= OnSpeechKeywordRecognized;
+    if (NumberOfSecondsBetweenSpawns <= 0)
+        Debug.LogError("Spawn: Need to have some positive time between spawns");
+
+    StartSpawning();
 }
 ```
 
-7. Add handler for the voice commands
-
-Fill in the event handler
+6. Mark this component as a speech handler, and handle the keywords via the interface callbacks:
 
 ```cs
 public class Spawn : MonoBehaviour, ISpeechHandler
 {
     //...
-    
-    public void OnSpeechKeywordRecognized(object sender, SpeechKeywordRecognizedEventArgs eventData)
+
+    public void OnSpeechKeywordRecognized(SpeechKeywordRecognizedEventData eventData)
     {
-        var phrase = eventData.RecognizedText.ToLowerInvariant();
-        switch (phrase)
-        {
-            case "buzz around":
-                AreBeesBuzzing = true;
-                break;
-            case "buzz off":
-                AreBeesBuzzing = false;
-                foreach (var obj in _spawnedThings)
-                {
-                    Destroy(obj);
-                }
-                _spawnedThings.Clear();
-                break;
-        }
-        
-        BuzzSound.mute = !AreBeesBuzzing;
+        if (eventData.RecognizedText == "Buzz Around")
+            StartSpawning();
+        else
+            StopSpawning();
     }
 }
 ```
@@ -88,7 +79,7 @@ Run the app, the bees will only spawn after you say `Buzz around`.  This voice r
 
 ## 3. Make it better (optional - extension)
 
-Ideally, our bees should go home when we tell them to `buzz off`, and come back when we tell them to, with nice shiny animations.  Let's do that now
+This section is just some polish on the bee behaviour - feel free to skip it, as it has nothing hololens specific, but it makes the bees _much better_ at going home - by having them fly towards the hive when told to buzz off.
 
 1. Open `FlyAround.cs` and change to be the following:
 
