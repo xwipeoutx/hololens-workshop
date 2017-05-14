@@ -54,7 +54,7 @@ IEnumerator DoTheSpawns()
         }
 
         // Create a new thing
-        var newThing = Instantiate(ThingToSpawn, transform.position, Quaternion.identity);
+        var newThing = Instantiate(ThingToSpawn, transform.position, Quaternion.identity, transform);
         _spawnedThings.Add(newThing);
 
         // Don't execute again until the time has passed
