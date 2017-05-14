@@ -6,7 +6,8 @@
 
 ## 5. Let's have some sound
 
-These hives are full of bees, let's make them sound like it
+These hives are full of bees, let's make them sound like it.
+
 
 1. Enable the Spatial plugin by:
   1. Open the menu `Edit`-`Project Settings`-`Audio`
@@ -17,7 +18,7 @@ These hives are full of bees, let's make them sound like it
 3. Unity will pick it up and import it
 4. Select your `Beehive` game object
 5. Click `Add Component` and choose `Audio Source`
-  * Note your camera already has the `Audio Receiver` Component
+  * Note your camera already has the `Audio Listener` Component
 6. Configure the Audio source:
   1. Drag the `buzz` sound to the Audio Clip
   2. Select `Spatialize`
@@ -30,3 +31,7 @@ These hives are full of bees, let's make them sound like it
     * Max Distance to `20`
 
 Now we're buzzing with excitement!
+
+The effect works best if you're wearing headphones (or the Hololens), but you should be able to tell (without looking at the screen) whether the bees are in front, beside or even behind you.  The sound drops off as you move away, and it louder as you get closer - pretty good results for the minimal effort
+
+At this point, it doesn't quite go as far as making it sound like the audio is going around corners or being muffled by doors, but some of this _is_ possible using the `Audio Occluder` script.  For now, we'll leave it as-is.
