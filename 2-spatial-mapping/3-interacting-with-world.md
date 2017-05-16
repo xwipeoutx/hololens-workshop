@@ -84,6 +84,6 @@ Run!  With the default key bindings, here is how you tap.  You will likely be ho
 You'll need to be careful you're not inside a wall at the time, as that tends to mess things up.
 
 ---
-Next: [Plane Detection](4-plane-detection.md)
+Next: [Placing Objects](4-placing-objects.md)
 
 Prev: [Spatial Mapper](2-using-spatial-mapper.md)

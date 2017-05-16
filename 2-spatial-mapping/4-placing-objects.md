@@ -158,3 +158,8 @@ Back to Unity.
 Play!
 
 Now whenever you tap, the spawner will move around. Hurrah!
+
+---
+Next: [World Anchors](5-world-anchors.md)
+
+Prev: [Interacting with world](3-interacting-with-world.md)

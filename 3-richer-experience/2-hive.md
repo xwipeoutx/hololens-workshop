@@ -8,8 +8,8 @@ While cubes are cool, they're not _that_ cool.  You know what's cool? Bees. Bees
 
 ## 1. Import a hive mesh for our bees
 
-1. Grab the beehive mesh from `/assets/models/beehive.fbx` (along with the associated textures folder)
-2. Copy it to the `Models` folder in your hierarchy
+1. Grab the <a href="/assets/models/beehive.zip" target="_blank" download>beehive mesh</a> (TODO: Right-click, save as)
+2. Extract it to the `Models` folder in your hierarchy
 3. Set the "Scale factor" to 0.001, and uncheck "Use file scale", or it will be too large
 
 ## 1. Change our spawner to spawn bees instead
@@ -98,3 +98,8 @@ if (!rayCastSuccessful || hit.collider.gameObject.layer != SpatialMappingManager
 ```
 
 I prefer the 2nd option myself.
+
+---
+Next: [Spatial Sound: Buzzing bees](3-spatial-sound.md)
+
+Prev: [Model: Add a buzzing bee](1-bee.md)

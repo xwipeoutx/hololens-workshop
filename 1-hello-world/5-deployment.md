@@ -109,6 +109,6 @@ project.lock.json
 ```
 
 ---
-Next: [Spatial Mapping](../spatial-mapping/index.md)
+Next: [Spatial Mapping](/2-spatial-mapping/index.md)
 
-Prev: [Creating the scene](1-create-the-scene.md)
+Prev: [Creating the scene](4-create-the-scene.md)

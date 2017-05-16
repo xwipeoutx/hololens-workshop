@@ -18,7 +18,7 @@ C:\Program Files (x86)\Microsoft XDE\10.0.14393.0\Plugins\Rooms
 
 I like `Great Room` because it's wide open.
 
-Alternatively, I have put a mesh up of the Readify office at [/assets/rooms/ReadifyOffice.obj](/assets/rooms/ReadifyOffice.obj) - this is a little more real-world in that it is patchy, and has incompletely mapped sections.  It's  bigger than the ones shipped in the SDK too, which is useful - though the presence of things like chairs, umbilical cords and people can make it confusing.
+Alternatively, I have put a mesh up of the <a href="/assets/rooms/ReadifyOffice.obj" target="_blank" download>Readify office</a> - (TODO: Right-click, save as) this is a little more real-world in that it is patchy, and has incompletely mapped sections.  It's  bigger than the ones shipped in the SDK too, which is useful - though the presence of things like chairs, umbilical cords and people can make it confusing.
 
 ![Readify Office Plan](img/readify-office-plan.png)
 
@@ -34,4 +34,4 @@ Note at this point, it's just a static mesh, like the cube we had on earlier.  H
 ---
 Next: [Using Spatial Mapper](2-using-spatial-mapper.md)
 
-Prev: [Spatial Mapping](1-create-the-scene.md)
+Prev: [Spatial Mapping](index.md)

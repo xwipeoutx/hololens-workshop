@@ -74,3 +74,8 @@ You may have noticed this error:
 You can inspect this file and see that the `WorldAnchorStore` is never created in the Unity Player.  Basically, that functionality doesn't exist within Unity - only in the emulator and the HoloLens.  So while everything still behaves properly, there is no effect _within Unity_ to using the anchors.
 
 You still need to use them though!
+
+---
+Next: [Richer Experience](/3-richer-experience/index.md)
+
+Prev: [Placing Objects](4-placing-objects.md)

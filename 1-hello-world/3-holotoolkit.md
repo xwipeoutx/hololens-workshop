@@ -49,6 +49,6 @@ This will create a package file `HoloToolkit.unitypackage` that can be imported 
 You can now close the HoloToolkit project.
 
 ---
-Next: [Creating the scene](1-create-the-scene.md)
+Next: [Creating the scene](4-create-the-scene.md)
 
 Prev: [Unity Overview](2-unity-overview.md)

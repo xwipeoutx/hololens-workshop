@@ -1,6 +1,3 @@
-TODO: Sharing service in assets/External
-TODO: Internet client
-
 # Sharing
 
 What we've done so far works well for simple games and gimmicks, but to do any real applications, we need some sort of networking.

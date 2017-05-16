@@ -92,7 +92,7 @@ Press **Play** in the Unity editor and move around the room, seeing the effect.
 The emulator can also load in room meshes, which gives a similar result to that in Unity.  This part is optional, but included for completeness.
 
 1. Set the material to `Wireframe` if not already set
-2. Deploy to the emulator and run (see [Deployment](../hello-world/5-deployment.md))
+2. Deploy to the emulator and run (see [Deployment](/1-hello-world/5-deployment.md)) (TODO: Right-click, save as)
 3. On the emulator
   1. Click the Right-Chevrons at the bottom to open the settings dialogs
   2. Select the `Room` tab
@@ -112,6 +112,6 @@ As you move around in the emulator, the 3D view will update.  Since the 3D view 
 ![Emulator and Web Portal](img/emulator-and-web-portal.png)
 
 ---
-Next: [Interacting with the world](2-interacting-with-world.md)
+Next: [Interacting with the world](3-interacting-with-world.md)
 
 Prev: [Fake Rooms](1-fake-room-data.md)
