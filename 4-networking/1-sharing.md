@@ -34,6 +34,14 @@ Unfortunately, the restrictions on our deployed environment (Unity player on a U
 2. Import it to the project
 3. Drag `HoloHelpers/Networking/Prefabs/Networking` to the scene, under the `Managers` game object
 
+## Enable network capability for the project
+
+We need to configure the client to connect to the internet by giving it the `InternetClient` capability.
+
+1. In Unity, go `HoloToolkit`-`Configure`-`Apply Capability Settings`
+2. Ensure `InternetClient` is checked
+3. Click `Apply`
+
 ### What is it?
 
 This prefab is an empty game object with 2 scripts - one for the SignalR server, and one for a World Anchor Store that works with a `REST`ful and `SignalR` server configured with `WebSockets`.  As such, the store uses the SignalR script, and so it's handy to have them live together all friendly like.
@@ -156,8 +164,8 @@ But let's instead just add a duplicate beehive and networking system to our scen
 
 1. Right-click the `Bee Spawner` and choose `Duplicate`
 2. Move it to the side so you can see both
-3. Uncheck the component `Speech Input Source`
-4. Because each client can only register 1 callback for each method, you will also need to duplicate the `Networking` component and update the beehive references.  Hopefully you're a pro by now
+3. Because each client can only register 1 callback for each method, you will also need to duplicate the `Networking` component and update the beehive references.  Hopefully you're a pro by now.
+4. The speech input stuff is a little bit singleton-like, even though it looks like we have multiple components for it.  So even if you delete the speech input source on one of the spawners, the will both stll receive input events.  To get around this and still test your communication, I suggest commenting out the `StartSpawning()` and `StopSpawning()` calls inside `OnSpeechKeywordRecognized` - that way, they only change buzz state from messages from the other one.
 
 If we run it, you will see freakiness and spammy messages abound.  Whoops! We've made our message handler also broadcast the message! It's like we've never done PubSub before in our lives.  
 
