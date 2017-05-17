@@ -28,28 +28,173 @@ This hub notifies clients of changes to an anchor.  This will be used in the nex
 
 ## Install my networking package
 
-Unfortunately, the restrictions on our deployed environment (Unity player on a UWP device) means there is no provided SignalR client (if you find one, please let me know)!  To get around this, I have written a `Script` component for the basic SignalR functionality of sending and receiving messages from a hub.
+Unfortunately, the restrictions on our deployed environment (Unity player on a UWP device) means there is no provided SignalR client (if you find one, please let me know!)  To get around this, I have written a `Script` component for the basic SignalR functionality of sending and receiving messages from a hub.
 
-TODO: Download llnk and such
- 
-1. Download from wherever
+1. Download from TODO
 2. Import it to the project
-3. Drag the `Networking` prefab to the scene
+3. Drag `HoloHelpers/Networking/Prefabs/Networking` to the scene, under the `Managers` game object
+
+### What is it?
+
+This prefab is an empty game object with 2 scripts - one for the SignalR server, and one for a World Anchor Store that works with a `REST`ful and `SignalR` server configured with `WebSockets`.  As such, the store uses the SignalR script, and so it's handy to have them live together all friendly like.
+
+The configuration for the SignalR hub is just a matter of setting host and path, and listing each hub name.  All messages for the hub will be received - it's fairly _naive_ at this point.
+
+We we will use this now to remotely control the buzzing state
 
 ## Configuring the SignalR Client
 
 The SignalR client has 2 parameters - one for the host/path, and another for the hub names.
 
-1. Set the `host/path` to `http://hololens-server.azurewebsites.net/signalr`
-2. Set the hub names to a single element called `messageHub`
-  - Note: it is preconfigured to listen to the anchor hub there - you can leave it populated if you want, it won't be used until the next chapter.
+1. Set the `host/path` to `hololens-server.azurewebsites.net/signalr`
+2. Set the hub names to be a single element called `messageHub`
 
-The component will connect and start listening to messages in the `Start()` phase.
+The component will connect and start listening to messages in the `Start()` phase.  You can check this now by running the app in your editor and looking at the logs.  Additionally, navigating to [the configured website](http://hololens-server.azurewebsites.net) will show log messages as each client connects.
 
-## Updating buzzing to broadcast the message
+## Updating the swarm to broadcast the message
 
-ToDo: Write this bit
+We're going to implement the message broadcast in a way that is very trusting of the client - any client can broadcast a message about whether or not the other bees are buzzing, and the other clients will update their state accordingly. Let's do it.
+
+### Listening to messages
+
+1. Open the script `Spawn.cs` and add a field for the `SignalRClient`, and update the `Start()` method as follows:
+
+```cs
+public SignalRClient SignalRClient;
+
+IEnumerator Start()
+{
+    if (ThingToSpawn == null)
+        Debug.LogError("Spawn: No things to spawn");
+
+    if (NumberOfSecondsBetweenSpawns <= 0)
+        Debug.LogError("Spawn: Need to have some positive time between spawns");
+
+    yield return StartCoroutine(new WaitUntil(() => SignalRClient.IsStarted));
+
+    StartSpawning();
+}
+```
+
+We've switch the `Start()` method to support coroutines, which we're using to ensure the SignalR client is started
+
+2. In the Unity editor, populate the `SignalRClient` with in the `Spawn` component to use the one in the `Networking` object of our scene.
+
+Now that we know our SignalR client has connected, let's listen for start/stop messages:
+
+3. Add the following to the `Start()` method of the `Spawn` script, just below the `yield`
+
+```cs
+SignalRClient.On<long, string>("messageHub", "customMessage", HandleCustomMessage);
+```
+
+4. Add the following class members to handle the message
+
+```cs
+private const long StartBuzzingMessageId = 1;
+private const long StopBuzzingMessageId = 2;
+private void HandleCustomMessage(long messageId, string messageContents)
+{
+    switch (messageId)
+    {
+        case StartBuzzingMessageId:
+            StartSpawning();
+            break;
+        case StopBuzzingMessageId:
+            StopSpawning();
+            break;
+        default:
+            break;
+    }
+}
+```
+
+You may want to use your own crazy high and random message ids, to avoid clashes with anyone else using the same server. Enterprise level solutions right here.
+
+
+So what's going on here? The SignalR client has 2 methods - one for handling single parameter methods, and another for two-parameter methods - mainly because that's all I'd needed at the time.  These simply take a callback, which will be called whenever the message is received.
+
+```cs
+void On<T>(string hubName, string methodName, Action<T1> action)
+void On<T1, T2>(string hubName, string methodName, Action<T1, T2> action)
+```
+
+Remember the method signatures further up, that's on our test server? We're using the `customMessage` one of those, which has 2 parameters - a `long` for the message id, and a `string` for the payload.  Complex objects can be handled via `Json` this way. 
+
+> **Aside**: Feel free to crack open the SignalR client to see how we do it.  Essentially we open a WebSocket connection using whatever is available to us in the environment (`Windows.Networking.Sockets` or `WebSocketSharp`), and serialize/deserialize the correct payloads.  It's _very_ primitive so you have to be careful - for example, numbers will deserialize to `long`, not `int`, causing all sorts of reflection/casting problems.
+
+### Sending the message
+
+All that's left now (or is it...?) is to make the clients broadcast the start and stop buzzing messages.  Easy!
+
+1. Edit `StartSpawning` and add this:
+
+```cs
+SignalRClient.SendToServer("messageHub", "customMessage", new object[] { StartBuzzingMessageId, "Started Buzzing" });
+```
+
+2. Edit `StopSpawning` and add this:
+
+```cs
+SignalRClient.SendToServer("messageHub", "customMessage", new object[] { StopBuzzingMessageId, "Stopped Buzzing" });
+```
+
+### Test it out!
+
+Run your codes, and have a look at the SignalR server, it's totally working, right?
+
+Here's where it gets a little annoying.  You can only run 1 Unity player at a time in the editor, so you can't test it out.  You have a few options.
+
+* Work with a friend!
+* Run one instance in the emulator, another in the unity editor.  Whoa.
+* Buy a few hololenses
+
+But let's instead just add a duplicate beehive and networking system to our scene:
+
+1. Right-click the `Bee Spawner` and choose `Duplicate`
+2. Move it to the side so you can see both
+3. Uncheck the component `Speech Input Source`
+4. Because each client can only register 1 callback for each method, you will also need to duplicate the `Networking` component and update the beehive references.  Hopefully you're a pro by now
+
+If we run it, you will see freakiness and spammy messages abound.  Whoops! We've made our message handler also broadcast the message! It's like we've never done PubSub before in our lives.  
+
+### Fix that bug! Seriously, that's just sloppy
+
+Let's move those broadcasts up into the voice handler
+
+1. Update the voice handler:
+
+```cs
+public void OnSpeechKeywordRecognized(SpeechKeywordRecognizedEventData eventData)
+{
+    if (eventData.RecognizedText == "Buzz Around")
+    {
+        SignalRClient.SendToServer("messageHub", "customMessage", new object[] { StartBuzzingMessageId, "Started Buzzing" });
+        StartSpawning();
+    }
+    else
+    {
+        SignalRClient.SendToServer("messageHub", "customMessage", new object[] { StopBuzzingMessageId, "Stop Buzzing" });
+        StopSpawning();
+    }
+}
+``` 
+
+2. Test it out. It works!
+3. Never, ever tell anyone that you made this mistake, it's embarrasing!
+4. Delete your test objects, noone needs to know about them either
 
 ## Other options
 
-Of course, this is just one way to achieve messaging - use whichever way is comfortable to you, and keep in mind the limitations of your environment.  `HoloToolkit`, for example, ships with a sharing server, and a lot of tutorials are based around this.  I found it to be too cumbersome for my purposes - it is designed to be sitting on an on-premises server, and provides no ability for server-side logic.  Given we're focusing on a business environment, I found web-friendly methods of communication were a better fit.
+Of course, this is just one way to achieve messaging - and depending on your inclination, it may just be a big black box.
+
+There are other ones out there - `HoloToolkit` has a sharing server available too, which you will see in a lot of tutorials.  I prefered this approach as it uses relatively open technologies - ones that we often see in the ecosystems we work in - and I'm already familiar with it.  Compare this to a bespoke C++ server that forces a particular hierarchy of rooms/users etc, and the choice was easy.
+
+The challenge is to find a mechanism that works well in the strange environment that is a hybrid of UWP / MonoGame - a fork of Mono from before `await` was cool.
+
+---
+Next: [World Anchor Sharing](2-world-anchor-sharing)
+
+Prev: [Networking](/4-networking/index.md)
+
+

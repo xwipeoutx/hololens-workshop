@@ -134,6 +134,6 @@ Some things to note.
 4. There is some simulation of finger taps here, we will cover this later - but for now, you can see the hands at the bottom.  Trying tapping by using a combination of `Shift` or `Space`, plus the `Left Mouse Button`.
 
 ---
-Next: [Deploying ot the device](5-deployment.md)
+Next: [Deploying to the device](5-deployment.md)
 
 Prev: [HoloToolkit](3-holotoolkit.md)
