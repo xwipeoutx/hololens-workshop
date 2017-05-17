@@ -187,6 +187,15 @@ Now:
 
 1. Test it out. It works!
 2. Never, ever tell anyone that you made this mistake, it's embarrasing!
+
+### 6. Ensuring initial state
+
+The more astute may have noticed a problem here - the initial state of the hive is not necessarily the same across clients.
+
+A very simple (though heavyweight) way around this is to make a new message, like "Beehive Created", broadcast it in the `Start()` method, and have all the other clients react to that with either `StartBuzzing` or `StopBuzzing`.
+
+Not exactly enterprise-grade, but it'll do.  I'll leave this as an excercise for you.
+
 3. Delete your test objects, noone needs to know about them either
 
 ## Other options
