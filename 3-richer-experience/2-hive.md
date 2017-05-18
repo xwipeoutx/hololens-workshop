@@ -8,7 +8,7 @@ While cubes are cool, they're not _that_ cool.  You know what's cool? Bees. Bees
 
 ## 1. Import a hive mesh for our bees
 
-1. Grab the <a href="/assets/models/beehive.zip" target="_blank" download>beehive mesh</a> (TODO: Right-click, save as)
+1. Grab the <a href="/assets/models/beehive.zip" target="_blank" download>beehive mesh</a>
 2. Extract it to the `Models` folder in your hierarchy
 3. Set the "Scale factor" to 0.001, and uncheck "Use file scale", or it will be too large
 

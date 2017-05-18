@@ -13,7 +13,7 @@ These hives are full of bees, let's make them sound like it.
   1. Open the menu `Edit`-`Project Settings`-`Audio`
   2. Set Spatializer Plugin to `MS HRTF Spatializer`
   3. Set System Sample Rate to `48000`
-2. Download <a href="/assets/sounds/buzz.wav" target="_blank">a bee buzzing sound</a>  (TODO: Right-click, save as) and put it in `Assets/Sounds/buzz.wav`
+2. Download <a href="/assets/sounds/buzz.wav" target="_blank">a bee buzzing sound</a> and put it in `Assets/Sounds/buzz.wav`
   * This sound is courtesy of [pillonoise on freesound.org](http://www.freesound.org/people/pillonoise/sounds/353198/)
 3. Unity will pick it up and import it
 4. Select your `Beehive` game object

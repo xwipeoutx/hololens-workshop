@@ -10,7 +10,7 @@ While cubes are cool, they're not _that_ cool.  You know what's cool? Bees. Bees
 
 Unfortunately, the Unity store has no good looking bees, so let's import one.
 
-1. Download the <a href="/assets/models/bee.3ds" target="_blank" download>Bee 3DS Model</a> (TODO: Right-click, save as)
+1. Download the <a href="/assets/models/bee.3ds" target="_blank" download>Bee 3DS Model</a>
 2. Create a `Models` folder in your hierarchy, and paste the model there
 3. Drag the bee model onto your scene to see it render
 

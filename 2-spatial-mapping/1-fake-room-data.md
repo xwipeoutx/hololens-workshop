@@ -18,7 +18,7 @@ C:\Program Files (x86)\Microsoft XDE\10.0.14393.0\Plugins\Rooms
 
 I like `Great Room` because it's wide open.
 
-Alternatively, I have put a mesh up of the <a href="/assets/rooms/ReadifyOffice.obj" target="_blank" download>Readify office</a> - (TODO: Right-click, save as) this is a little more real-world in that it is patchy, and has incompletely mapped sections.  It's  bigger than the ones shipped in the SDK too, which is useful - though the presence of things like chairs, umbilical cords and people can make it confusing.
+Alternatively, I have put a mesh up of the <a href="/assets/rooms/ReadifyOffice.obj" target="_blank" download>Readify office</a> - this is a little more real-world in that it is patchy, and has incompletely mapped sections.  It's  bigger than the ones shipped in the SDK too, which is useful - though the presence of things like chairs, umbilical cords and people can make it confusing.
 
 ![Readify Office Plan](img/readify-office-plan.png)
 

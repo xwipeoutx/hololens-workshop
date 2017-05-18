@@ -63,17 +63,92 @@ Dealing with anchors is relatively simple - it's simply a matter of attaching th
 
 Note that any attempt to move the object while it contains a `WorldAnchor` component will appear to do nothing - the `WorldAnchor` will shunt it back to the anchor's position immediately.
 
-### But...errors?
+## World Anchor Store
 
-TODO: Talk about anchors within Unity... if I still need to *gasp*
+**Note:** If you're having woes with emulators, skip this bit.  World anchor sharing, later, is much more useful and important.
 
-You may have noticed this error:
+**Note2:** If you get stuck here and it doesn't work, **MOVE ON** - debugging errors on the emulator is a slow and painful process - especially since you need to be running in `Release` or `Master` to have any hope of it not crashing the HoloLens. If you really want to debug, simply run the app with the debugger or attach to the remote UWP process.  You can use the assembly explorer to open scripts and add breakpoints.  But seriously, you're better off learning about new Hololens features and fixing these issues in your own time! 
 
-> `remove anchor called before anchor store is ready.`
+If we want to persist these, we need to use the _world anchor store_.  Unfortunately, this doesn't work with the Unity Editor (apparently persisting these anchors requires some internal device thingies that they haven't bothered doingg for the editor).
 
-You can inspect this file and see that the `WorldAnchorStore` is never created in the Unity Player.  Basically, that functionality doesn't exist within Unity - only in the emulator and the HoloLens.  So while everything still behaves properly, there is no effect _within Unity_ to using the anchors.
+In any case, persistent anchors aren't terribly important for the dev experience, and we can work around this issue with null checks or `#if !UNITY_EDITOR` statements. So let's get our bee position perstisting to the anchor store.
 
-You still need to use them though!
+### 1. Extract delete to its own method
+
+Find this code
+
+```cs
+var existingAnchor = gameObject.GetComponent<WorldAnchor>();
+if (existingAnchor != null)
+{
+    DestroyImmediate(existingAnchor);
+}
+```
+
+And put it in its own method `DestroyAnchor`
+
+### 2. Bring in the WorldAnchorStore, load the anchor on startup
+
+Add the following (along with the backing field) to the start method:
+
+```cs
+
+#if !UNITY_EDITOR
+    WorldAnchorStore.GetAsync(store =>
+    {
+        _store = store;
+        DestroyAnchor();
+
+        var loadedAnchor = _store.Load(AnchorName, gameObject);
+        if (loadedAnchor == null)
+        {
+            Debug.Log("No anchor found - saving");
+            AttachAndPersistAnchor();
+        }
+        else
+        {
+            Debug.Log("Loaded Anchor " + AnchorName + ". located? " + loadedAnchor.isLocated);
+        }
+    });
+#endif
+```
+
+But wait, what's `AttachAndPersistAnchor`?
+
+```cs
+    private void AttachAndPersistAnchor()
+    {
+        var anchor = gameObject.AddComponent<WorldAnchor>();
+        anchor.name = gameObject.name;
+#if !UNITY_EDITOR
+        Debug.Log("Saving Anchor " + AnchorName + " located? " + anchor.isLocated);
+        _store.Save(AnchorName, anchor);
+#endif
+    }
+```
+
+### 3. Add the store to delete as well
+
+Update `DestroyAnchor` to use persistence.
+
+```cs
+private void DestroyAnchor()
+{
+    var existingAnchor = gameObject.GetComponent<WorldAnchor>();
+    if (existingAnchor != null)
+    {
+        Debug.Log("Destroying Anchor " + AnchorName + " located? " + existingAnchor.isLocated);
+
+        DestroyImmediate(existingAnchor);
+
+#if !UNITY_EDITOR
+        _store.Delete(AnchorName);
+#endif
+    }
+}
+```
+
+All good! If you fire up your emulator, you should be able close/reopen your app and have a persisted anchor.  And the editor shouldn't explode with errors either! Win/win.
 
 ---
 Next: [Richer Experience](/3-richer-experience/index.md)
