@@ -1,5 +1,7 @@
 # Richer Input
 
+** Note: ** This section may not line up with some of the other world anchor code - tread lightly
+
 ## Goals
 
 * Richer input for pick up / place

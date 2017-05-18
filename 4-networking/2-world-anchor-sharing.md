@@ -1,9 +1,4 @@
-TODO: Sharing service in assets/External
-TODO: Internet client
-
 # Sharing
-
-> **NOTE: THIS SECTION STILL UNDER DEVELOPMENT**
 
 ## Goals
 
@@ -11,7 +6,7 @@ TODO: Internet client
 
 ## World Anchors and Sharing
 
-Sharing world anchors is a tricky process.  Recall from [earlier](TODO) that a World Anchor represents a place in the real world. As the mapping of the real world becomes more defined, the World Anchor updates and stays in the same real world area.
+Sharing world anchors is a tricky process.  Recall from [earlier](/2-spatial-mapping/5-world-anchors.md) that a World Anchor represents a place in the real world. As the mapping of the real world becomes more defined, the World Anchor updates and stays in the same real world area.
 
 This is useful in non-sharing situations, as it means the hologram will never sink behind a wall if the initial measurement was inaccurate, but it is absolutely necessary when sharing Holograms. Each Hololens will have different ideas on what a room looks like - this is just the nature of spatial mapping. 
 
@@ -31,7 +26,7 @@ This is speculation, I have no idea how it actually works. Luckily, you don't ne
 
 ## Some caveats
 
-The Unity editor has no working implementation of anchor serialization/deserialization.  It just no worky - it's a device-only API.  So to test any of this out, it's deploy-to-the-emulator-o-clock.
+Again, the Unity editor has no working implementation of anchor serialization/deserialization.  It just no worky - it's a device-only API.  So to test any of this out, it's deploy-to-the-emulator-o-clock.
 
 And really, for sharing, you need 2 devices - two emulators - to test it out.  Our earlier hack of putting an extra device in won't work as nicely, since they'll be overlapping positions.
 
@@ -79,24 +74,115 @@ The app will be available on the device.  You can either find it in the Emulator
 
 > **Aside: But how on earth does this work?!?!** The HoloLens has APIs for all of the functions available in the device portal (remember, when we previewed it from the browser?).  You can upload and launch applications using these endpoints.  Want a hobby project? Improve this experience for multiple Hololenses!
 
-## 3. 
+## 3. All good? Awesome! Let's share those anchors
 
-## How the services interact
+Serializing anchors manually will be covered soon, but let's get quick, easy* results so we feel good about ourselves!
 
-HoloToolkit's sharing service can be used to share World anchors. The flow is as follows:
+> *not necessarily easy
 
-1. Connect to the sharing service
-2. Create/Join a _session_
-3. Create/Join a _room_
-4. To upload an anchor:
-  1. Get the `WorldAnchor` from the `GameObject` (create one if it doesn't exist)
-  2. Serialize it to a `byte` array using the `WorldAnchorTransferBatch`
-  3. Send the bytes, along with a unique identifier, to the service via the `RoomManager`.  This is scoped to a single _room_
-5. To download an anchor:
-  1. Download anchor from the room by its unique identifier, as a `byte` array
-  2. Deserialize the byte into a `WorldAnchorTransferBatch`
-  3. Instruct the `WorldAnchorTransferBatch` to `Lock` the specified anchor to the `GameObject`.  This will add or update the relevant `WorldAnchor` component.
+We're going to leverage the SignalR server from [before](1-sharing.md), along with an abstraction around it that utilisates the `AnchorHub` to give us a `DistributedAnchorStore`
 
-The concept of _session_ and _room_ has been introduced here - the sharing service has been designed to handle multiple of these at a time, each with a unique identifier.  For our purposes, we will be using a single session and room.
+### 1. Add the anchor store and "glue" the game object to an anchor
 
-Sharing anchors is really just about uploading and downloading `byte` arrays
+Open `MoveToTapPosition.cs` and add the following field:
+
+```cs
+public DistributedHttpAnchorStore AnchorStore;
+```
+
+Update the start method:
+
+```cs
+IEnumerator Start()
+{
+    InputManager.Instance.AddGlobalListener(gameObject);
+
+    yield return StartCoroutine(AnchorStore.GlueTogether(AnchorName, gameObject));
+}
+```
+
+GlueTogether will download the anchor from the server, and attach it to the object if one was found.  If not, it will add a world anchor to the object _but not save it_.
+
+### 2. Use the anchor store to destroy/attach the anchor
+
+Update `OnInputClicked` to go via the anchor store to update anchors.  In this case, the anchor will be detached (so you can move it freely), and then saved (which also attaches it) when done.
+
+```cs
+  public void OnInputClicked(InputClickedEventData eventData)
+  {
+      var origin = Camera.transform.position;
+      var direction = Camera.transform.rotation * Vector3.forward;
+
+      RaycastHit hit;
+      var rayCastSuccessful = Physics.Raycast(origin, direction, out hit, 20);
+      if (!rayCastSuccessful || hit.collider.gameObject.layer != SpatialMappingManager.Instance.PhysicsLayer)
+          return;
+
+      var spawnPosition = hit.point + hit.normal * OffsetFromWall;
+
+      AnchorStore.DetachAnchor(AnchorName, gameObject); // Changed
+
+      var lookDirection = hit.normal;
+      lookDirection.y = 0;
+      lookDirection.Normalize();
+
+      gameObject.transform.position = spawnPosition;
+      gameObject.transform.rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+      StartCoroutine(AnchorStore.SaveAnchor(AnchorName, gameObject)); // Changed
+  }
+```
+
+### 3. Wire it up in the editor
+
+We need to put the `DistributedWorldAnchorStore` script component onto here, and update our `SignalRClient` to honour the anchor hub too (it won't automatiacally register itself).
+
+1. Select the `Networking` gameObject
+2. Add another hub called `anchorHub` in the signalR client
+3. Select the `Bee Spawner` prefab
+4. Add the `DistributedWorldAnchorStore` to the new field from step 1
+
+Deploy to both HoloLenses and see it in action.
+
+## How does this actually work?
+
+At the end of the day, an anchor is a series of bytes. What those bytes are, I don't know, but they're there - and Unity gives us a way to retrieve those bytes.  It's somewhat convoluted, but here it is:
+
+```cs
+var batch = new WorldAnchorTransferBatch();
+batch.AddWorldAnchor(anchor.name, anchor);
+
+var memoryStream = new MemoryStream();
+WorldAnchorTransferBatch.ExportAsync(batch,
+    bytes => memoryStream.Write(bytes, 0, bytes.Length),
+    failureReason => { 
+      var bytes = memoryStream.ToArray();
+      // Do stuff with the bytes
+    }
+);
+```
+
+Basically, create a batch, add the anchor to it, and export it.  The second argument is called as data comes available, and the third when the serialization is completed - we can do whatever we want with the bytes (in this case, shoot it to a WebAPI endpoint and SignalR server).
+
+We can deserialize them from bytes, too.
+
+```cs
+var isComplete = false;
+WorldAnchorTransferBatch.ImportAsync(bytes, (failureReason, batch) =>
+{
+    var targetGameObject = /* find game object */;
+    var anchor = batch.LockObject(worldAnchorId, targetGameObject);
+    anchor.name = worldAnchorId;
+
+    // Initially it won't be located (it may take a while to be found in the world), so we can wait for a callback:
+    anchor.OnTrackingChanged += (WorldAnchor a, bool isLocated) => { /*...*/ };
+});
+```
+
+And that's it! Most of the complexity is in the communication and managing `async` without `async`.
+
+---
+Next: Umm you're done
+
+Prev: [Sharing](/4-networking/1-sharing.md)
+
